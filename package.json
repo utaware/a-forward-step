@@ -8,5 +8,8 @@
   "keywords": [],
   "author": "utaware",
   "license": "ISC",
-  "description": "个人兴趣学习相关"
+  "description": "个人兴趣学习相关",
+  "dependencies": {
+    "puppeteer": "^23.11.1"
+  }
 }
