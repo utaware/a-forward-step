@@ -1,0 +1,12 @@
+{
+  "name": "a-forward-step",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [],
+  "author": "utaware",
+  "license": "ISC",
+  "description": "个人兴趣学习相关"
+}
