@@ -24,7 +24,7 @@ async function main() {
   const { selectedAnimeVersion } = await inquirer.prompt({
     type: 'list',
     name: 'selectedAnimeVersion',
-    message: '请选择所需下载版本',
+    message: '请选择下载分类',
     choices: animeInquirerVersionChoices,
   })
   // 确定分类 可选式剧集下载
@@ -38,7 +38,7 @@ async function main() {
   const { selectedAnimePVIndex } = await inquirer.prompt({
     type: 'checkbox',
     name: 'selectedAnimePVIndex',
-    message: '请选择所需下载版本',
+    message: '请选择下载剧集',
     choices: animeInquirerPVChoices,
   })
 
