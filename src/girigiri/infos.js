@@ -1,5 +1,7 @@
-import axios from 'axios'
 import * as cheerio from 'cheerio'
+import axios from 'axios'
+import ora from 'ora'
+import picocolors from 'picocolors'
 
 import { animeUrlPrefix } from './config.js'
 
@@ -12,7 +14,13 @@ function parserMutipleNodesText($, selector, isMultiple) {
 export async function getAnimeInformationSet(code) {
   const bangumiUrl = [animeUrlPrefix, code].join('/')
 
+  const spinner = ora()
+
+  spinner.start(`正在从地址${bangumiUrl}获取信息...`)
+
   const { status, data } = await axios.get(bangumiUrl)
+
+  spinner.succeed(`信息获取完成 ${picocolors.bgBlue(bangumiUrl)}`)
 
   const isSuccess = status === 200
 
@@ -22,7 +30,7 @@ export async function getAnimeInformationSet(code) {
 
   const $ = cheerio.load(data)
 
-  const options = [
+  const contentOptions = [
     {
       name: 'title',
       selector: '.slide-info-title',
@@ -50,13 +58,26 @@ export async function getAnimeInformationSet(code) {
     },
   ]
 
-  const informationSet = options.reduce((t, c) => {
+  const infos = contentOptions.reduce((t, c) => {
     const { name, selector, isMultiple } = c
     t[name] = parserMutipleNodesText($, selector, isMultiple)
     return t
   }, {})
 
-  const { versions } = informationSet
+  const { title, remarks, introduce, tags, versions } = infos
+
+  const logOptions = [
+    { desc: '动漫名称', content: title },
+    { desc: '备注', content: remarks },
+    { desc: '简介', content: introduce },
+    { desc: '标签', content: tags },
+    { desc: '剧集', content: versions },
+  ]
+
+  logOptions.forEach(({ desc, content }) => {
+    const item = picocolors.green(`${desc}: ${content}`)
+    console.log(item)
+  })
 
   const anime = Array.from($('.anthology-list-box')).reduce((t, c, i) => {
     const resouce = Array.from($('a', c)).map(element => {
@@ -69,7 +90,5 @@ export async function getAnimeInformationSet(code) {
     return t
   }, [])
 
-  const result = Object.assign({}, informationSet, { anime })
-
-  return result
+  return { infos, anime }
 }
