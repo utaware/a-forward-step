@@ -3,7 +3,7 @@ import axios from 'axios'
 import ora from 'ora'
 import picocolors from 'picocolors'
 
-import { animeUrlPrefix } from './config.js'
+import { animeUrlPrefix } from '../config/index.js'
 
 function parserMutipleNodesText($, selector, isMultiple) {
   return isMultiple

@@ -1,15 +1,19 @@
-import { animeUrlPrefix, m3u8PlayListName } from './config.js'
+import puppeteer from 'puppeteer'
+
+import { animeUrlPrefix, m3u8PlayListName } from '../config/index.js'
+
+const timeout = 300_000
 
 export async function getM3u8URL(code) {
-  const requestUrl = [animeUrlPrefix, code].join('/')
+  const requestUrl = animeUrlPrefix + code
 
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({ timeout })
 
   const page = await browser.newPage()
 
-  await page.goto(requestUrl)
+  await page.goto(requestUrl, { timeout })
 
-  await page.waitForSelector('#playleft')
+  await page.waitForSelector('#playleft', { timeout })
 
   const targetHref = page
     .frames()
