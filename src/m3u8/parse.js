@@ -1,7 +1,9 @@
+import { parse } from 'node:path'
+
 import { Parser } from 'm3u8-parser'
 import axios from 'axios'
 
-import { m3u8PlayListName } from '../config/index.js'
+import { m3u8PlayListName } from '#src/config/index.js'
 
 export async function parseM3u8URLFiles(url) {
   const m3u8Parse = new Parser()
@@ -25,8 +27,10 @@ export async function parseM3u8URLFiles(url) {
 
   const result = segments.map(v => {
     const { uri } = v
+    const { name } = parse(uri)
+    const realuri = name + '.ts'
     const tsUrl = prefixUrl + uri
-    return Object.assign(v, { tsUrl })
+    return Object.assign(v, { tsUrl, uri, realuri })
   })
 
   return result

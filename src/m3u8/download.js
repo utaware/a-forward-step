@@ -1,30 +1,44 @@
 import path from 'node:path'
+import ora from 'ora'
+
 import fs from 'fs-extra'
 import axios from 'axios'
 
-import { rootDir } from '../utils/index.js'
+export async function downloadTsFiles(tsFiles, cacheDir) {
+  await fs.ensureDir(cacheDir)
+  await fs.emptyDir(cacheDir)
 
-export async function downloadTSFiles(files) {
-  const cacheTSDir = path.resolve(rootDir, 'ts-cache')
+  const totalFiles = tsFiles.length
+  let currentCount = 0
 
-  await fs.ensureDir(cacheTSDir)
-  await fs.emptyDir(cacheTSDir)
+  const spinner = ora()
 
-  const downloadPromiseQueue = files.map(v => {
-    const { tsUrl, uri } = v
-    const tsCachePath = path.resolve(cacheTSDir, uri)
-    return axios({ method: 'get', url: tsUrl, responseType: 'stream' }).then(
-      response => {
-        response.data.pipe(fs.createWriteStream(tsCachePath))
-      }
-    )
+  spinner.start()
+
+  const downloadPromiseQueue = tsFiles.map(v => {
+    const { tsUrl, realuri } = v
+    const tsCachePath = path.resolve(cacheDir, realuri)
+    return new Promise((resolve, reject) => {
+      axios({ method: 'get', url: tsUrl, responseType: 'stream' }).then(
+        response => {
+          const inputStream = response.data
+          const outputStream = fs.createWriteStream(tsCachePath)
+          inputStream.pipe(outputStream)
+          inputStream.on('end', () => {
+            currentCount++
+            const progress = Math.round(currentCount / totalFiles * 100) + '%'
+            spinner.text = `当前下载进度${progress}`
+            resolve(tsUrl)
+          })
+          inputStream.on('error', () => {
+            reject(tsUrl)
+          })
+        }
+      )
+    })
   })
 
-  Promise.all(downloadPromiseQueue)
-    .then(() => {
-      console.log('success')
-    })
-    .catch(() => {
-      console.log('error')
-    })
+  spinner.stop()
+
+  await Promise.all(downloadPromiseQueue)
 }
