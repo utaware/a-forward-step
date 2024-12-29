@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
+  "imports": {
+    "#root/*": "./*",
+    "#src/*": "./src/*",
+    "#utils/*": "./src/utils/*"
+  },
   "scripts": {
     "test": "node index.js"
   },
