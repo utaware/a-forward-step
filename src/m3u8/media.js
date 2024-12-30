@@ -1,31 +1,55 @@
 import { exec } from 'node:child_process'
 import path from 'node:path'
-
+import ora from 'ora'
 import fs from 'fs-extra'
 
-export async function useFffmpegTransform(tsFiles, cacheDir, text) {
-  const input = path.resolve(cacheDir, 'input.txt')
-  const output = path.resolve(cacheDir, 'output.mp4')
-
-  const inputFileContent = tsFiles
+export function generatorFfmpegInputTxt (tsFilesOption) {
+  return tsFilesOption
     .map(v => {
       const { realuri } = v
       return `file ${realuri}`
     })
     .join('\n')
+}
 
-  await fs.writeFile(input, inputFileContent)
-
-  exec(`ffmpeg -f concat -i ${input} -c copy ${output}`, async () => {
-    console.log('转换完成')
-    const copyPath = path.resolve(cacheDir, `../${text}.mp4`)
-    console.log('移动最终下载文件中...')
-    await fs.copyFile(output, copyPath)
-    console.log('清理缓存文件夹')
-    await fs.emptyDir(cacheDir)
-    await fs.remove(cacheDir)
-    console.log('清理完毕')
+export async function execFfmpegCommand(input, output) {
+  return new Promise((resolve, reject) => {
+    exec(`ffmpeg -f concat -i ${input} -c copy ${output}`, (error) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve()
+      }
+    })
   })
+}
 
-  return output
+export async function clearCacheDir(dirname) {
+  return new Promise((resolve, reject) => {
+    exec(`rmdir /s /q ${dirname}`, (error) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
+export async function transformAndClearMedia(tsFiles, cacheDir, text) {
+  const inputFileName = path.resolve(cacheDir, 'input.txt')
+  const outputFileName = path.resolve(cacheDir, `../${text}.mp4`)
+  const ffmpegInputContent = generatorFfmpegInputTxt(tsFiles)
+
+  const spinner = ora()
+
+  spinner.start('生成ffmpeg输入文件清单...')
+  await fs.writeFile(inputFileName, ffmpegInputContent)
+  spinner.text = '即将执行ffmpeg文件格式转换...'
+  await execFfmpegCommand(inputFileName, outputFileName)
+  spinner.text = '完成转换输...清理多余ts文件'
+  await clearCacheDir(cacheDir)
+  spinner.succeed('清理完毕')
+
+  return outputFileName
 }

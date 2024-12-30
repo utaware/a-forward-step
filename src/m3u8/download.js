@@ -1,19 +1,26 @@
 import path from 'node:path'
 import ora from 'ora'
-
+import picocolors from 'picocolors'
 import fs from 'fs-extra'
 import axios from 'axios'
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, { retries: 3 });
+
+function calcDownloadProgress(current, total) {
+  return Math.round(current / total * 100) + '%'
+}
 
 export async function downloadTsFiles(tsFiles, cacheDir) {
   await fs.ensureDir(cacheDir)
   await fs.emptyDir(cacheDir)
 
-  const totalFiles = tsFiles.length
-  let currentCount = 0
+  const totalDownloadCount = tsFiles.length
+  let currentDownloadCount = 0
 
   const spinner = ora()
 
-  spinner.start()
+  spinner.start('开始下载ts文件...')
 
   const downloadPromiseQueue = tsFiles.map(v => {
     const { tsUrl, realuri } = v
@@ -25,20 +32,22 @@ export async function downloadTsFiles(tsFiles, cacheDir) {
           const outputStream = fs.createWriteStream(tsCachePath)
           inputStream.pipe(outputStream)
           inputStream.on('end', () => {
-            currentCount++
-            const progress = Math.round(currentCount / totalFiles * 100) + '%'
-            spinner.text = `当前下载进度${progress}`
+            currentDownloadCount++
+            const progress = calcDownloadProgress(currentDownloadCount, totalDownloadCount)
+            spinner.text = `当前下载进度: ${picocolors.green(progress)}`
             resolve(tsUrl)
           })
           inputStream.on('error', () => {
             reject(tsUrl)
           })
         }
-      )
+      ).catch(() => {
+        console.log(`${tsUrl}下载出错`)
+      })
     })
   })
 
-  spinner.stop()
-
   await Promise.all(downloadPromiseQueue)
+
+  spinner.succeed('ts文件下载完毕')
 }
