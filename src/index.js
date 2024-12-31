@@ -3,13 +3,13 @@ import fs from 'fs-extra'
 import path from 'path'
 import picocolors from 'picocolors'
 
-import { getAnimeInformationSet, getM3u8URL } from '#src/girigiri/index.js'
+import { getAnimeInformationSet, getM3u8URL } from '#girigiri'
 import {
   downloadTsFiles,
   transformAndClearMedia,
   parseM3u8URLFiles,
-} from '#src/m3u8/index.js'
-import { downloadDir } from '#src/config/index.js'
+} from '#m3u8'
+import { downloadDir } from '#config'
 
 async function main() {
   console.time('任务用时')

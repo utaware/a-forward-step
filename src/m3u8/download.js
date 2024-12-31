@@ -3,9 +3,6 @@ import ora from 'ora'
 import picocolors from 'picocolors'
 import fs from 'fs-extra'
 import axios from 'axios'
-import axiosRetry from 'axios-retry';
-
-axiosRetry(axios, { retries: 3 });
 
 function calcDownloadProgress(current, total) {
   return Math.round(current / total * 100) + '%'

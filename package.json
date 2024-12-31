@@ -6,10 +6,21 @@
   "imports": {
     "#root/*": "./*",
     "#src/*": "./src/*",
-    "#utils/*": "./src/utils/*"
+    "#utils": {
+      "default": "./src/utils/index.js"
+    },
+    "#girigiri": {
+      "default": "./src/girigiri/index.js"
+    },
+    "#m3u8": {
+      "default": "./src/m3u8/index.js"
+    },
+    "#config": {
+      "default": "./src/config/index.js"
+    }
   },
   "scripts": {
-    "test": "node index.js"
+    "test": "node src/index.js"
   },
   "keywords": [],
   "author": "utaware",

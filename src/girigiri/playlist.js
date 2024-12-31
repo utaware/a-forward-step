@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer'
 import ora from 'ora'
 
-import { animeUrlPrefix, m3u8PlayListName } from '../config/index.js'
+import { animeUrlPrefix, m3u8PlayListName } from '#config'
 
 const timeout = 300_000
 
