@@ -1,11 +1,11 @@
 import puppeteer from 'puppeteer'
 import ora from 'ora'
 
-import { animeUrlPrefix, m3u8PlayListName } from '#config'
+import { animeUrlPrefix, m3u8PlayListName } from '@/config/index.ts'
 
 const timeout = 300_000
 
-export async function getM3u8URL(code) {
+export async function getM3u8URL(code: string) {
 
   const spinner = ora()
 
@@ -26,7 +26,15 @@ export async function getM3u8URL(code) {
     .map(v => v.url())
     .find(v => v.includes(m3u8PlayListName))
 
+  if (!targetHref) {
+    throw new Error('获取m3u8文件地址失败')
+  }
+
   const m3u8Url = new URL(targetHref).searchParams.get('url')
+
+  if (!m3u8Url) {
+    throw new Error('m3u8地址不存在')
+  }
 
   await browser.close()
 

@@ -3,9 +3,9 @@ import { parse } from 'node:path'
 import { Parser } from 'm3u8-parser'
 import axios from 'axios'
 
-import { m3u8PlayListName } from '#config'
+import { m3u8PlayListName } from '@/config/index.ts'
 
-export async function parseM3u8URLFiles(url) {
+export async function parseM3u8URLFiles(url: string) {
   const m3u8Parse = new Parser()
 
   const { status, data } = await axios.get(url)

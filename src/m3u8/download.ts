@@ -1,14 +1,14 @@
-import path from 'node:path'
+import * as path from 'node:path'
 import ora from 'ora'
-import picocolors from 'picocolors'
-import fs from 'fs-extra'
+import * as picocolors from 'picocolors'
+import * as fs from 'fs-extra'
 import axios from 'axios'
 
-function calcDownloadProgress(current, total) {
+function calcDownloadProgress(current: number, total: number) {
   return Math.round(current / total * 100) + '%'
 }
 
-export async function downloadTsFiles(tsFiles, cacheDir) {
+export async function downloadTsFiles(tsFiles: ITSFile[], cacheDir: string) {
   await fs.ensureDir(cacheDir)
   await fs.emptyDir(cacheDir)
 

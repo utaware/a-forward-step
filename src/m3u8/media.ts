@@ -1,9 +1,9 @@
 import { exec } from 'node:child_process'
-import path from 'node:path'
+import * as path from 'node:path'
 import ora from 'ora'
-import fs from 'fs-extra'
+import * as fs from 'fs-extra'
 
-export function generatorFfmpegInputTxt (tsFilesOption) {
+export function generatorFfmpegInputTxt (tsFilesOption: ITSFile[]) {
   return tsFilesOption
     .map(v => {
       const { realuri } = v
@@ -12,31 +12,31 @@ export function generatorFfmpegInputTxt (tsFilesOption) {
     .join('\n')
 }
 
-export async function execFfmpegCommand(input, output) {
+export async function execFfmpegCommand(input: string, output: string) {
   return new Promise((resolve, reject) => {
     exec(`ffmpeg -f concat -i ${input} -c copy ${output}`, (error) => {
       if (error) {
         reject(error)
       } else {
-        resolve()
+        resolve('finish')
       }
     })
   })
 }
 
-export async function clearCacheDir(dirname) {
+export async function clearCacheDir(dirname: string) {
   return new Promise((resolve, reject) => {
     exec(`rmdir /s /q ${dirname}`, (error) => {
       if (error) {
         reject(error)
       } else {
-        resolve()
+        resolve('finish')
       }
     })
   })
 }
 
-export async function transformAndClearMedia(tsFiles, cacheDir, text) {
+export async function transformAndClearMedia(tsFiles: ITSFile[], cacheDir: string, text: string) {
   const inputFileName = path.resolve(cacheDir, 'input.txt')
   const outputFileName = path.resolve(cacheDir, `../${text}.mp4`)
   const ffmpegInputContent = generatorFfmpegInputTxt(tsFiles)

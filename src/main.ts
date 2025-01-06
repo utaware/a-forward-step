@@ -1,30 +1,27 @@
 import inquirer from 'inquirer'
-import fs from 'fs-extra'
-import path from 'path'
-import picocolors from 'picocolors'
+import * as fs from 'fs-extra'
+import * as path from 'node:path'
+import * as picocolors from 'picocolors'
 
-import { getAnimeInformationSet, getM3u8URL } from '#girigiri'
+import { getAnimeInformationSet, getM3u8URL } from '@/girigiri/index.ts'
 import {
   downloadTsFiles,
   transformAndClearMedia,
   parseM3u8URLFiles,
-} from '#m3u8'
-import { downloadDir } from '#config'
+} from '@/m3u8/index.ts'
+import { downloadDir } from '@/config/index.ts'
 
 async function main() {
   console.time('任务用时')
   // 获取动漫对应gvCode
-  const { gvCode } = await inquirer.prompt({
+  const { gvCode } = await inquirer.prompt<{ gvCode: string }>({
     type: 'input',
     name: 'gvCode',
     default: 'GV922',
     message: '请输入动画GV编码',
   })
   // 获取动漫相关信息
-  const {
-    anime,
-    infos: { title },
-  } = await getAnimeInformationSet(gvCode)
+  const { anime, title } = await getAnimeInformationSet(gvCode)
   // 存在不同版本时 筛选下载的番剧资源分类
   const animeInquirerVersionChoices = anime.map((v, i) => {
     const { name } = v
@@ -63,7 +60,6 @@ async function main() {
   // 下载
   for await (const item of selectDownloadAnime) {
     const { href, text } = item
-
     const m3u8Url = await getM3u8URL(href)
     console.log(`m3u8文件地址: ${picocolors.bgBlue(m3u8Url)}`)
     const cacheDir = path.resolve(currentAnimeDir, text)
