@@ -1,15 +1,15 @@
 import inquirer from 'inquirer'
-import * as fs from 'fs-extra'
-import * as path from 'node:path'
-import * as picocolors from 'picocolors'
+import fs from 'fs-extra'
+import path from 'node:path'
+import picocolors from 'picocolors'
 
-import { getAnimeInformationSet, getM3u8URL } from '@/girigiri/index.ts'
+import { getAnimeInformationSet, getM3u8URL } from '#girigiri'
 import {
   downloadTsFiles,
   transformAndClearMedia,
   parseM3u8URLFiles,
-} from '@/m3u8/index.ts'
-import { downloadDir } from '@/config/index.ts'
+} from '#m3u8'
+import { downloadDir } from '#config'
 
 async function main() {
   console.time('任务用时')

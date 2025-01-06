@@ -1,6 +1,6 @@
 import cheerio from 'cheerio'
 
-import type { IAnimeVersion } from '@/types/index.ts'
+import type { IAnimeVersion } from '#types'
 
 export type TSingleInfoKeys = 'title' | 'introduce'
 export type TMutipleInfoKeys = 'remarks' | 'tags' | 'versions'

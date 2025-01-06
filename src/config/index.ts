@@ -1,6 +1,6 @@
-import * as path from 'node:path'
+import path from 'node:path'
 
-import { rootDir } from '@/utils/index.ts'
+import { rootDir } from '#utils'
 
 export const animeUrlPrefix = 'https://anime.girigirilove.com'
 

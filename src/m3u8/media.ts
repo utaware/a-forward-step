@@ -1,7 +1,7 @@
 import { exec } from 'node:child_process'
-import * as path from 'node:path'
+import path from 'node:path'
 import ora from 'ora'
-import * as fs from 'fs-extra'
+import fs from 'fs-extra'
 
 export function generatorFfmpegInputTxt (tsFilesOption: ITSFile[]) {
   return tsFilesOption

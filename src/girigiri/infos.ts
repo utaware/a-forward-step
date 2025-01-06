@@ -1,10 +1,10 @@
 import axios from 'axios'
 import ora from 'ora'
-import * as picocolors from 'picocolors'
+import picocolors from 'picocolors'
 
-import { animeUrlPrefix } from '@/config/index.ts'
-import { getPageInfoAndSource } from './cherrio.ts'
-import { printCurrentAnimeInfos } from './print.ts'
+import { animeUrlPrefix } from '#config'
+import { getPageInfoAndSource } from './cherrio.js'
+import { printCurrentAnimeInfos } from './print.js'
 
 /**
  * 通过gvcode获取对应页面相关信息

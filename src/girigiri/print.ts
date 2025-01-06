@@ -1,6 +1,6 @@
-import * as picocolors from 'picocolors'
+import picocolors from 'picocolors'
 
-import type { IAnimePageInfos } from '@/types/index.ts'
+import type { IAnimePageInfos } from '#types'
 
 export function printCurrentAnimeInfos(content: IAnimePageInfos) {
   const { title, remarks, introduce, tags, versions } = content

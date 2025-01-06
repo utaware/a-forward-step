@@ -1,1 +1,1 @@
-export * from './infos.ts'
+export * from './infos.js'

@@ -1,10 +1,18 @@
 {
   "name": "a-forward-step",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "index.js",
   "type": "module",
+  "imports": {
+    "#src/*": "./src/*",
+    "#types": "./src/types/index.js",
+    "#utils": "./src/utils/index.js",
+    "#girigiri": "./src/girigiri/index.js",
+    "#m3u8": "./src/m3u8/index.js",
+    "#config": "./src/config/index.js"
+  },
   "scripts": {
-    "test": "ts-node src/main.ts"
+    "test": "ts-node src/main.js"
   },
   "keywords": [],
   "author": "utaware",

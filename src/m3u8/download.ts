@@ -1,7 +1,7 @@
-import * as path from 'node:path'
+import path from 'node:path'
 import ora from 'ora'
-import * as picocolors from 'picocolors'
-import * as fs from 'fs-extra'
+import picocolors from 'picocolors'
+import fs from 'fs-extra'
 import axios from 'axios'
 
 function calcDownloadProgress(current: number, total: number) {
