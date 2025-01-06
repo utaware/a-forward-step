@@ -1,26 +1,10 @@
 {
   "name": "a-forward-step",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
-  "imports": {
-    "#root/*": "./*",
-    "#src/*": "./src/*",
-    "#utils": {
-      "default": "./src/utils/index.js"
-    },
-    "#girigiri": {
-      "default": "./src/girigiri/index.js"
-    },
-    "#m3u8": {
-      "default": "./src/m3u8/index.js"
-    },
-    "#config": {
-      "default": "./src/config/index.js"
-    }
-  },
   "scripts": {
-    "test": "node src/index.js"
+    "test": "ts-node src/main.ts"
   },
   "keywords": [],
   "author": "utaware",
@@ -40,6 +24,8 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.35",
     "@types/fs-extra": "^11.0.4",
-    "@types/inquirer": "^9.0.7"
+    "@types/inquirer": "^9.0.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   }
 }
