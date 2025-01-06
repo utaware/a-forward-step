@@ -4,7 +4,6 @@
     "target": "ESNext",
     "module": "NodeNext",
     "baseUrl": ".",
-    "outDir": "./dist",
     "rootDir": ".",
     // 是否跳过对所有外部库（包括默认库和自定义库）的类型检查
     "skipLibCheck": true,
