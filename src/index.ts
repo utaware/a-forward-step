@@ -1,6 +1,6 @@
 import inquirer from 'inquirer'
 import fs from 'fs-extra'
-import path from 'node:path'
+import path from 'path'
 import picocolors from 'picocolors'
 
 import { getAnimeInformationSet, getM3u8URL } from '#girigiri'

@@ -1,5 +1,5 @@
-import { exec } from 'node:child_process'
-import path from 'node:path'
+import { exec } from 'child_process'
+import path from 'path'
 import ora from 'ora'
 import fs from 'fs-extra'
 

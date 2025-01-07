@@ -3,8 +3,8 @@ import ora from 'ora'
 import picocolors from 'picocolors'
 
 import { animeUrlPrefix } from '#config'
-import { getPageInfoAndSource } from './cherrio.js'
-import { printCurrentAnimeInfos } from './print.js'
+import { getPageInfoAndSource } from './cherrio'
+import { printCurrentAnimeInfos } from './print'
 
 /**
  * 通过gvcode获取对应页面相关信息

@@ -1,4 +1,4 @@
-import path from 'node:path'
+import path from 'path'
 import ora from 'ora'
 import picocolors from 'picocolors'
 import fs from 'fs-extra'

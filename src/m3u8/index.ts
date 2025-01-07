@@ -1,3 +1,3 @@
-export * from './parse.js'
-export * from './download.js'
-export * from './media.js'
+export * from './parse'
+export * from './download'
+export * from './media'

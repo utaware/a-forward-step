@@ -2,13 +2,13 @@
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",
-    "module": "NodeNext",
+    "module": "ESNext",
     "baseUrl": ".",
     "rootDir": ".",
     // 是否跳过对所有外部库（包括默认库和自定义库）的类型检查
     "skipLibCheck": true,
     // 模块解析策略
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     // 是否解析 package.json 文件中的 "imports"字段来确定模块的入口点
     "resolvePackageJsonImports": true,
     // 用于实现与 CommonJS 和 AMD 等旧的模块系统的互操作性
@@ -17,6 +17,7 @@
     "noUnusedLocals": true,
     // 检查在switch语句中是否存在没有break或return等终止语句导致的“穿透”情况
     "noFallthroughCasesInSwitch": true,
+    "allowImportingTsExtensions": false,
     "paths": {}
   },
   "include": [

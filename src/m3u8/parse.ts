@@ -1,4 +1,4 @@
-import { parse } from 'node:path'
+import { parse } from 'path'
 
 import { Parser } from 'm3u8-parser'
 import axios from 'axios'

@@ -1,1 +1,1 @@
-export * from './infos.js'
+export * from './infos'

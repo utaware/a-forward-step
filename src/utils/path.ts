@@ -1,5 +1,5 @@
-import path from 'node:path'
-import url from 'node:url'
+import path from 'path'
+import url from 'url'
 
 const currentFileUrl = url.fileURLToPath(import.meta.url)
 

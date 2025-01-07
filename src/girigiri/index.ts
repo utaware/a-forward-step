@@ -1,2 +1,2 @@
-export * from './playlist.js'
-export * from './infos.js'
+export * from './playlist'
+export * from './infos'
