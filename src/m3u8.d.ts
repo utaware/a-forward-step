@@ -8,8 +8,8 @@ interface Manifest {
 }
 
 interface ITSFile extends ISegments {
-  realuri: string
-  tsUrl: string
+  tsFileName: string
+  tsFileUrl: string
 }
 
 declare module 'm3u8-parser' {

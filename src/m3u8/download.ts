@@ -20,10 +20,10 @@ export async function downloadTsFiles(tsFiles: ITSFile[], cacheDir: string) {
   spinner.start('开始下载ts文件...')
 
   const downloadPromiseQueue = tsFiles.map(v => {
-    const { tsUrl, realuri } = v
-    const tsCachePath = path.resolve(cacheDir, realuri)
+    const { tsFileUrl, tsFileName } = v
+    const tsCachePath = path.resolve(cacheDir, tsFileName)
     return new Promise((resolve, reject) => {
-      axios({ method: 'get', url: tsUrl, responseType: 'stream' }).then(
+      axios({ method: 'get', url: tsFileUrl, responseType: 'stream' }).then(
         response => {
           const inputStream = response.data
           const outputStream = fs.createWriteStream(tsCachePath)
@@ -32,14 +32,14 @@ export async function downloadTsFiles(tsFiles: ITSFile[], cacheDir: string) {
             currentDownloadCount++
             const progress = calcDownloadProgress(currentDownloadCount, totalDownloadCount)
             spinner.text = `当前下载进度: ${picocolors.green(progress)}`
-            resolve(tsUrl)
+            resolve(tsFileUrl)
           })
           inputStream.on('error', () => {
-            reject(tsUrl)
+            reject(tsFileUrl)
           })
         }
       ).catch(() => {
-        console.log(`${tsUrl}下载出错`)
+        console.log(`${tsFileUrl}下载出错`)
       })
     })
   })

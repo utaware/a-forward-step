@@ -6,8 +6,8 @@ import fs from 'fs-extra'
 export function generatorFfmpegInputTxt (tsFilesOption: ITSFile[]) {
   return tsFilesOption
     .map(v => {
-      const { realuri } = v
-      return `file ${realuri}`
+      const { tsFileName } = v
+      return `file ${tsFileName}`
     })
     .join('\n')
 }
