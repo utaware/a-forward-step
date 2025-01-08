@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import picocolors from 'picocolors'
 
-import { getAnimeInformationSet, getM3u8URL } from '#girigiri'
+import { getAnimeInformationSet, getAnimeM3u8URL } from '#girigiri'
 import {
   downloadTsFiles,
   transformAndClearMedia,
@@ -28,7 +28,9 @@ async function main() {
     return { name, value: i }
   })
 
-  const { selectedAnimeVersion } = await inquirer.prompt({
+  const { selectedAnimeVersion } = await inquirer.prompt<{
+    selectedAnimeVersion: number
+  }>({
     type: 'list',
     name: 'selectedAnimeVersion',
     message: '请选择下载分类',
@@ -42,7 +44,9 @@ async function main() {
     return { name: `${title} ${text}`, value: i }
   })
 
-  const { selectedAnimePVIndex } = await inquirer.prompt({
+  const { selectedAnimePVIndex } = await inquirer.prompt<{
+    selectedAnimePVIndex: number[]
+  }>({
     type: 'checkbox',
     name: 'selectedAnimePVIndex',
     message: '请选择下载剧集',
@@ -60,7 +64,7 @@ async function main() {
   // 下载
   for await (const item of selectDownloadAnime) {
     const { href, text } = item
-    const m3u8Url = await getM3u8URL(href)
+    const m3u8Url = await getAnimeM3u8URL(href)
     console.log(`m3u8文件地址: ${picocolors.bgBlue(m3u8Url)}`)
     const cacheDir = path.resolve(currentAnimeDir, text)
     const tsFileContent = await parseM3u8URLFiles(m3u8Url)

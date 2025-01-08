@@ -5,7 +5,12 @@ import { animeUrlPrefix, m3u8PlayListName } from '#config'
 
 const timeout = 300_000
 
-export async function getM3u8URL(code: string) {
+/**
+ * 通过gvcode获取对应动漫的m3u8文件地址
+ * @param code gvcode
+ * @returns playlist.m3u8 - url
+ */
+export async function getAnimeM3u8URL(code: string) {
 
   const spinner = ora()
 
