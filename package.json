@@ -12,7 +12,8 @@
   },
   "scripts": {
     "start": "node dist/bundle.cjs",
-    "build": "npx webpack --config webpack.config.js"
+    "build": "npx webpack --config webpack.config.js",
+    "dev": "npx webpack --config webpack.config.js && node dist/bundle.cjs"
   },
   "keywords": [],
   "author": "utaware",
@@ -27,6 +28,7 @@
     "inquirer": "^12.3.0",
     "m3u8-parser": "^7.2.0",
     "ora": "^8.1.1",
+    "p-limit": "^6.2.0",
     "picocolors": "^1.1.1",
     "puppeteer": "^23.11.1",
     "utf-8-validate": "^6.0.5"
