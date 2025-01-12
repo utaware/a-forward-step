@@ -2,15 +2,35 @@ import puppeteer from 'puppeteer'
 import ora from 'ora'
 
 import { animeUrlPrefix, m3u8PlayListName } from '#config'
+import { getM3u8URLCacheStore, writeM3u8URLCacheStore } from './cache'
 
 const timeout = 300_000
+
+export async function getAnimeM3u8URL(code: string) {
+
+  const m3u8Store = await getM3u8URLCacheStore()
+
+  const hasCodeCache = m3u8Store.has(code)
+
+  const m3u8URLResult = hasCodeCache
+    ? m3u8Store.get(code) as string
+    : await getM3u8URLWithPuppeteer(code)
+
+  if (!hasCodeCache) {
+    m3u8Store.set(code, m3u8URLResult)
+    await writeM3u8URLCacheStore(m3u8Store)
+  }
+
+  return m3u8URLResult
+
+}
 
 /**
  * 通过gvcode获取对应动漫的m3u8文件地址
  * @param code gvcode
  * @returns playlist.m3u8 - url
  */
-export async function getAnimeM3u8URL(code: string) {
+export async function getM3u8URLWithPuppeteer(code: string) {
 
   const spinner = ora()
 

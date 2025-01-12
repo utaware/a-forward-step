@@ -24,6 +24,7 @@
     "axios-retry": "^4.5.0",
     "bufferutil": "^4.0.9",
     "cheerio": "^1.0.0",
+    "configstore": "^6.0.0",
     "fs-extra": "^11.2.0",
     "inquirer": "^12.3.0",
     "m3u8-parser": "^7.2.0",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.35",
+    "@types/configstore": "^6.0.2",
     "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.7",
     "ts-loader": "^9.5.1",

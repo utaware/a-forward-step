@@ -1,6 +1,10 @@
-import path from 'path'
-import url from 'url'
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-const currentFileUrl = url.fileURLToPath(import.meta.url)
+const currentFileUrl = fileURLToPath(import.meta.url)
 
-export const rootDir = path.resolve(currentFileUrl, '../../../')
+export const rootDir = resolve(currentFileUrl, '../../../')
+
+export const __filename = (path: string) => fileURLToPath(path)
+
+export const __dirname = (path: string) => dirname(fileURLToPath(path))
