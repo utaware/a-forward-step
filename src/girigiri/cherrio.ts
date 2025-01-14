@@ -19,10 +19,12 @@ interface ICheerioMutipleNodeMap {
 const cheerioSingleNodeOption: {
   name: TSingleInfoKeys
   selector: string
+  format?: (content: string) => string
 }[] = [
   {
     name: 'title',
     selector: '.slide-info-title',
+    format: (content) => content.replace(/\s/g, '-')
   },
   {
     name: 'introduce',
@@ -50,8 +52,9 @@ const cheerioMutipleNodeOption: {
 
 export function getSingleNodeInfo($: cheerio.Root) {
   return cheerioSingleNodeOption.reduce((t, c) => {
-    const { name, selector } = c
-    t[name] = $(selector).text()
+    const { name, selector, format } = c
+    const content = $(selector).text()
+    t[name] = format ? format(content) : content
     return t
   }, {} as ICherrioSingleNodeMap)
 }
