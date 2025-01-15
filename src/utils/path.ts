@@ -5,6 +5,8 @@ const currentFileUrl = fileURLToPath(import.meta.url)
 
 export const rootDir = resolve(currentFileUrl, '../../../')
 
+export const cacheDir = resolve(rootDir, './girigirilove')
+
 export const __filename = (path: string) => fileURLToPath(path)
 
 export const __dirname = (path: string) => dirname(fileURLToPath(path))

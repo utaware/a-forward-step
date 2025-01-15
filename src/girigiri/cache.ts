@@ -2,9 +2,9 @@ import fs from 'fs-extra'
 import Store from 'configstore'
 import path from 'path'
 
-import { rootDir } from '#utils'
+import { cacheDir } from '#utils'
 
-export const m3u8CacheFilePath = path.resolve(rootDir, './cache/m3u8.json')
+export const m3u8CacheFilePath = path.resolve(cacheDir, './cache/m3u8.json')
 
 export async function getM3u8URLCacheContent() {
   const isExist = await fs.exists(m3u8CacheFilePath)
