@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>流光边框</title>
+    <style>
+      /* 基础代码 */
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        font-family: 'Noto Sans SC', sans-serif;
+        color: #f0f0f0;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #0b0d15;
+        color: #a2a5b3;
+        align-content: center;
+      }
+
+      h1 {
+        color: white;
+      }
+
+      .card {
+        margin: 0 auto;
+        padding: 2em;
+        width: 300px;
+        background: #1c1f2b;
+        text-align: center;
+        border-radius: 10px;
+        position: relative;
+      }
+
+      /* 边框代码 */
+      @property --angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
+      }
+
+      .card::after,
+      .card::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-image: conic-gradient(
+          from var(--angle),
+          #ff4545,
+          #00ff99,
+          #006aff,
+          #ff0095,
+          #ff4545
+        );
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        z-index: -1;
+        padding: 3px;
+        border-radius: 10px;
+        animation: 3s spin linear infinite;
+      }
+
+      .card::before {
+        filter: blur(1.5rem);
+        opacity: 0.5;
+      }
+
+      @keyframes spin {
+        from {
+          --angle: 0deg;
+        }
+
+        to {
+          --angle: 360deg;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>滕王阁序</h1>
+      <p>
+        豫章故郡，洪都新府。星分翼轸，地接衡庐。襟三江而带五湖，控蛮荆而引瓯越。物华天宝，龙光射牛斗之墟；人杰地灵，徐孺下陈蕃之榻。雄州雾列，俊采星驰。台隍枕夷夏之交，宾主尽东南之美。都督阎公之雅望，棨戟遥临；宇文新州之懿范，襜帷暂驻。十旬休假，胜友如云；千里逢迎，高朋满座。腾蛟起凤，孟学士之词宗；紫电青霜，王将军之武库。家君作宰，路出名区；童子何知，躬逢胜饯。
+      </p>
+    </div>
+  </body>
+</html>
