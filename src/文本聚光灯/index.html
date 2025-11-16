@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文本聚光灯</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        font-family: 'Noto Sans SC', sans-serif;
+        color: #f0f0f0;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #0b0d15;
+        color: #a2a5b3;
+        align-content: center;
+      }
+
+      h1 {
+        position: relative;
+        font-size: 8rem;
+        color: #333;
+        text-align: center;
+      }
+
+      h1::after {
+        content: attr(data-text);
+        color: greenyellow;
+        position: absolute;
+        inset: 0;
+        clip-path: circle(100px at var(--highlight) 50%);
+        animation: textHightLight 5s infinite;
+      }
+
+      @property --highlight {
+        syntax: '<percentage>';
+        initial-value: 0%;
+        inherits: false;
+      }
+
+      @keyframes textHightLight {
+        from {
+          --highlight: 0%;
+        }
+        to {
+          --highlight: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 data-text="Hello-Wolrd">Hello-Wolrd</h1>
+  </body>
+</html>
