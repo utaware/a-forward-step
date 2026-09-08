@@ -2,7 +2,7 @@ import pc from 'picocolors'
 
 export type TLogType = 'success' | 'error' | 'primary' | 'warning'
 
-export function log(message: string, type: TLogType = 'primary') {
+export function print(message: string, type: TLogType = 'primary') {
   switch (type) {
     case 'primary':
       console.log(pc.blue(message))
