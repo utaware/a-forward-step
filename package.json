@@ -5,6 +5,11 @@
   "scripts": {
     "test": "node index.js"
   },
+  "imports": {
+    "#utils": {
+      "default": "./src/utils/index.ts"
+    }
+  },
   "keywords": [],
   "author": "utaware",
   "license": "ISC",
@@ -12,7 +17,8 @@
   "dependencies": {
     "axios": "^1.20.0",
     "cheerio": "^1.2.0",
-    "fs-extra": "^11.4.0"
+    "fs-extra": "^11.4.0",
+    "picocolors": "^1.1.1"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4"
