@@ -8,6 +8,9 @@
   "imports": {
     "#utils": {
       "default": "./src/utils/index.ts"
+    },
+    "#config": {
+      "default": "./src/config/index.ts"
     }
   },
   "keywords": [],
