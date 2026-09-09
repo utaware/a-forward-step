@@ -1,4 +1,10 @@
 import { load } from 'cheerio'
+import fs from 'fs-extra'
+
+import { dataDirPath, dataRolePath } from '#config'
+import { jsonStringifyFormat } from '#utils'
+
+import { getRoleHtml } from './html'
 
 import { type IRoleDataItem, roleDataOptionsMap } from '#options'
 
@@ -12,8 +18,8 @@ export function getRoleDataParamType(key: string) {
   return ''
 }
 
-export function getRoleData(data: Record<string, string>): IRoleDataItem {
-  return Object.entries(data).reduce<IRoleDataItem>((total, [param, value]) => {
+export function parseRoleData(data: Record<string, string>, roleImgSrc: string): IRoleDataItem {
+  const item = Object.entries(data).reduce<IRoleDataItem>((total, [param, value]) => {
     const type = getRoleDataParamType(param)
     const hasKey = Reflect.has(roleDataOptionsMap, type)
     if (hasKey) {
@@ -22,6 +28,7 @@ export function getRoleData(data: Record<string, string>): IRoleDataItem {
     }
     return total
   }, {} as IRoleDataItem)
+  return { ...item, roleImgSrc }
 }
 
 export function parseRoleHtml(html: string) {
@@ -29,6 +36,27 @@ export function parseRoleHtml(html: string) {
   const roleList = $('#CardSelectTr .divsort')
 
   return roleList.toArray().map(element => {
-    return getRoleData(element.attribs)
+    const roleImgEl = $(element).find('img')
+    const roleImgSrc = roleImgEl.attr('src') || ''
+    return parseRoleData(element.attribs, roleImgSrc)
   })
+}
+
+export async function saveRoleDataToJsonFile(roleData: IRoleDataItem[]) {
+  await fs.ensureDir(dataDirPath)
+  const jsonData = jsonStringifyFormat(roleData)
+  await fs.writeFile(dataRolePath, jsonData, 'utf-8')
+}
+
+export async function getRoleData() {
+  const hasCache = await fs.pathExists(dataRolePath)
+  if (hasCache) {
+    const jsonData = await fs.readFile(dataRolePath, 'utf-8')
+    return JSON.parse(jsonData) as IRoleDataItem[]
+  } else {
+    const roleHtml = await getRoleHtml()
+    const parsedRoleData = parseRoleHtml(roleHtml)
+    await saveRoleDataToJsonFile(parsedRoleData)
+    return parsedRoleData
+  }
 }

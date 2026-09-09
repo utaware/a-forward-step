@@ -13,6 +13,7 @@ export interface IRoleDataItem {
   onlineTime: string
   birthday: string
   birthdayMonth: string
+  roleImgSrc: string
 }
 
 export interface IRoleDataOption {
