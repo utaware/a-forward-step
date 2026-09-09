@@ -1,8 +1,11 @@
 import pc from 'picocolors'
 
+import { jsonStringifyFormat } from './json'
+
 export type TLogType = 'success' | 'error' | 'primary' | 'warning'
 
-export function print(message: string, type: TLogType = 'primary') {
+export function print(msg: any, type: TLogType = 'primary') {
+  const message = typeof msg === 'string' ? msg : jsonStringifyFormat(msg)
   switch (type) {
     case 'primary':
       console.log(pc.blue(message))
