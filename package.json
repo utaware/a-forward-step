@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "role": "tsx src/role/index.ts",
+    "emoji": "tsx src/emoji/index.ts"
   },
   "imports": {
     "#utils": {
