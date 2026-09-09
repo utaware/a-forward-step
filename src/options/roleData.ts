@@ -1,87 +1,104 @@
+export interface IRoleDataItem {
+  id: string
+  name: string
+  nickname: string
+  category: string
+  gender: string
+  giftGreen: string
+  giftBlue: string
+  giftPurple: string
+  affiliation: string
+  event: string
+  potential: string
+  onlineTime: string
+  birthday: string
+  birthdayMonth: string
+}
+
 export interface IRoleDataOption {
-  key: string
-  value: number
+  key: keyof IRoleDataItem
+  type: number
   label: string
 }
 
 export const roleDataOptions: IRoleDataOption[] = [
   {
     key: 'id',
-    value: 1,
+    type: 1,
     label: '编号',
   },
   {
     key: 'name',
-    value: 2,
+    type: 2,
     label: '角色名',
   },
   {
     key: 'nickname',
-    value: 3,
+    type: 3,
     label: '昵称',
   },
   {
-    key: 'type',
-    value: 4,
-    label: '类别',
+    key: 'category',
+    type: 4,
+    label: '分类',
   },
   {
     key: 'gender',
-    value: 5,
+    type: 5,
     label: '性别',
   },
   {
-    key: 'gift-green',
-    value: 6,
+    key: 'giftGreen',
+    type: 6,
     label: '礼物-绿色',
   },
   {
-    key: 'gift-blue',
-    value: 7,
+    key: 'giftBlue',
+    type: 7,
     label: '礼物-蓝色',
   },
   {
-    key: 'gift-purple',
-    value: 8,
+    key: 'giftPurple',
+    type: 8,
     label: '礼物-紫色',
   },
   {
     key: 'affiliation',
-    value: 9,
+    type: 9,
     label: '从属',
   },
   {
     key: 'event',
-    value: 10,
+    type: 10,
     label: '事件经历',
   },
   {
     key: 'potential',
-    value: 11,
+    type: 11,
     label: '潜能激发',
   },
   {
-    key: 'sort-time',
-    value: 12,
-    label: '排序-上线时间',
+    key: 'onlineTime',
+    type: 12,
+    label: '上线时间',
   },
   {
     key: 'birthday',
-    value: 13,
+    type: 13,
     label: '生日',
   },
   {
-    key: 'sort-birthday',
-    value: 14,
+    key: 'birthdayMonth',
+    type: 14,
     label: '生日-月份',
   },
 ]
 
-// Map of role data options keyed by their value property
+// Map of role data options keyed by their type property
 export const roleDataOptionsMap = roleDataOptions.reduce<{
   [key: string]: IRoleDataOption
 }>((total, option) => {
-  const { value } = option
-  total[value] = option
+  const { type } = option
+  total[type] = option
   return total
 }, {})
