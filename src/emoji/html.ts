@@ -64,7 +64,7 @@ export async function saveEmojiDataToJsonFile(data: IEmojiDataItem[]) {
   await fs.writeFile(dataEmojiPath, jsonData, 'utf-8')
 }
 
-export async function getEmojiData() {
+export async function getEmojiData(): Promise<IEmojiDataItem[]> {
   const hasCache = await fs.pathExists(dataEmojiPath)
   if (hasCache) {
     const jsonData = await fs.readFile(dataEmojiPath, 'utf-8')

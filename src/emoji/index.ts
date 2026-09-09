@@ -1,8 +1,7 @@
-import { getEmojiData } from './html'
+import { downloadAllEmojiData } from './download'
 
 async function main() {
-  const emojiData = await getEmojiData()
-  console.log('emojiData:', emojiData.length)
+  await downloadAllEmojiData()
 }
 
 main()
