@@ -11,6 +11,9 @@
     },
     "#config": {
       "default": "./src/config/index.ts"
+    },
+    "#options": {
+      "default": "./src/options/index.ts"
     }
   },
   "keywords": [],
