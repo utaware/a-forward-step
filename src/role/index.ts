@@ -1,10 +1,9 @@
 import { print } from '#utils'
 
-import { getRoleData } from './data'
+import { downloadRoleData } from './download'
 
 async function main() {
-  const roleData = await getRoleData()
-  print(roleData)
+  await downloadRoleData()
 }
 
 main()
