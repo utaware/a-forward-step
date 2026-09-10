@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "role": "tsx src/role/index.ts",
-    "emoji": "tsx src/emoji/index.ts"
+    "emoji": "tsx src/emoji/index.ts",
+    "character": "tsx src/character/index.ts"
   },
   "imports": {
     "#utils": {
@@ -26,6 +27,7 @@
     "cheerio": "^1.2.0",
     "download": "^8.0.0",
     "fs-extra": "^11.4.0",
+    "inquirer": "^14.2.2",
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
