@@ -34,7 +34,8 @@ export async function requestEmojiData(url: string) {
   const nextPageUrl = nextPageEl.attr('href') ? `${baseUrl}${nextPageEl.attr('href')}` : ''
   const emojiData = emojiListEl.toArray().map(element => {
     const imgEl = $(element).find('img')
-    const imgSrc = imgEl.attr('src') || ''
+    const imgSrcset = imgEl.attr('srcset') || ''
+    const [imgSrc] = imgSrcset.split(' ')
     const imgAlt = imgEl.attr('alt') || ''
     return { imgSrc, imgAlt }
   })
