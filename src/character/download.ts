@@ -1,6 +1,7 @@
 import { join, parse } from 'path'
 
 import { ensureDir, writeFile } from 'fs-extra'
+import { Impit } from 'impit'
 
 import { print } from '#utils'
 
@@ -10,7 +11,7 @@ import { getCharacterVoiceDir } from './url'
 // 下载角色语音数据并保存到本地
 export async function downloadRoleVoiceData(name: string) {
   const voiceData = await getRoleVoiceData(name)
-  const { gotScraping } = await import('got-scraping')
+  const client = new Impit({ browser: 'chrome' })
 
   await Promise.all(
     voiceData.map(async item => {
@@ -24,8 +25,12 @@ export async function downloadRoleVoiceData(name: string) {
           const filePath = join(realPath, filename)
 
           await ensureDir(realPath)
-          const response = await gotScraping.get(downloadUrl)
-          await writeFile(filePath, response.rawBody)
+          const response = await client.fetch(downloadUrl)
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status} ${response.statusText}`)
+          }
+          const arrayBuffer = await response.arrayBuffer()
+          await writeFile(filePath, Buffer.from(arrayBuffer))
         } catch (error) {
           print(`Failed to download ${description}: ${(error as Error).message}`, 'error')
         }
