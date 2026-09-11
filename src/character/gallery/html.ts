@@ -12,37 +12,27 @@ export interface IRoleGalleryItem {
   downloadUrl: string
 }
 
-const DEFAULT_ANIM_TYPES = [
-  ['Cheer', '欢呼'],
-  ['Cry', '哭泣'],
-  ['Die', '击倒'],
-  ['Eat', '进食'],
-  ['Electricshock', '雷击'],
-  ['Fight-attack', '骰点攻击'],
-  ['Fight-attack-normal', '骰点攻击（轻）'],
-  ['Fight-attack-lite', '骰点攻击（中）'],
-  ['Fight-attack-hard', '骰点攻击（重）'],
-  ['Fight-dodge', '骰点闪避'],
-  ['Fight-hit', '战斗受击'],
-  ['Fight-idle-attack', '攻击方待机'],
-  ['Fight-idle-defense', '防御方待机'],
-  ['Fight-move', '战斗移动'],
-  ['Hit', '受击'],
-  ['Hit-01', '受击01'],
-  ['Hit-02', '受击02'],
-  ['Hospitalized', '住院'],
-  ['Idle', '待机'],
-  ['Lose', '游戏失败'],
-  ['Show', '登场'],
-  ['Talent', '主动技能'],
-  ['Vomit', '呕吐'],
-  ['Walk', '移动'],
-  ['Walk-Back', '移动（背面）'],
-  ['Walk-back', '移动（背面）'],
-  ['Walk-02', '移动02'],
-  ['Walk-Back-02', '移动（背面）02'],
-  ['Walk-back-02', '移动（背面）02'],
-]
+/**
+ * 从页面 HTML 的脚本中匹配过滤动画类型数组 (AnimTypeArr)
+ */
+function parseAnimTypeArrFromHtml($: ReturnType<typeof load>): [string, string][] {
+  let scriptContent = ''
+  $('script').each((_, s) => {
+    scriptContent += $(s).html() + '\n'
+  })
+
+  const animTypeArr: [string, string][] = []
+  const match = scriptContent.match(/(?:const|let|var)\s+AnimTypeArr\s*=\s*(\[[\s\S]*?\]);/)
+  if (match) {
+    const entryRegex = /\[\s*['"]([^'"]+)['"]\s*,\s*['"]([^'"]+)['"]\s*\]/g
+    let entryMatch: RegExpExecArray | null
+    while ((entryMatch = entryRegex.exec(match[1])) !== null) {
+      animTypeArr.push([entryMatch[1], entryMatch[2]])
+    }
+  }
+
+  return animTypeArr
+}
 
 /**
  * 将维基缩略图 URL 转换为原图 URL
@@ -234,27 +224,8 @@ async function parseAnimationSection($: ReturnType<typeof load>, container: Retu
     })
   }
 
-  // 2. 提取动画类型数组 AnimTypeArr
-  let animTypeArr = DEFAULT_ANIM_TYPES
-  let scriptCode = ''
-  nodes
-    .filter('script')
-    .add(nodes.find('script'))
-    .each((_, s) => {
-      scriptCode += $(s).html() || ''
-    })
-
-  const matchAnimArr = scriptCode.match(/const\s+AnimTypeArr\s*=\s*(\[[\s\S]*?\]);/)
-  if (matchAnimArr) {
-    try {
-      const parsed = eval(matchAnimArr[1])
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        animTypeArr = parsed
-      }
-    } catch {
-      // 忽略 eval 错误，使用默认预设
-    }
-  }
+  // 2. 从 HTML 页面脚本中匹配过滤动画类型数组 AnimTypeArr
+  const animTypeArr = parseAnimTypeArrFromHtml($)
 
   // 3. 构建需要 API 校验的文件列表
   const queryList: {
