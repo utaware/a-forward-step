@@ -1,8 +1,7 @@
-import { getRoleVoiceData } from './data'
+import { downloadRoleVoiceData } from './download'
 
 async function main() {
-  const roleData = await getRoleVoiceData('帕露南')
-  console.log(roleData.length)
+  await downloadRoleVoiceData('帕露南')
 }
 
 main()

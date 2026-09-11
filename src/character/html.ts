@@ -47,11 +47,11 @@ export async function parseRoleVoiceHtml(html: string) {
         category = $(tds[0]).text().trim()
         lastType = category
         description = $(tds[1]).text().trim()
-        downloadUrl = $(tds[3]).find('a').attr('href') || ''
+        downloadUrl = $(tds[2]).find('.audio-player').attr('data-src') || ''
       } else if (tds.length === 3) {
         category = lastType
         description = $(tds[0]).text().trim()
-        downloadUrl = $(tds[2]).find('a').attr('href') || ''
+        downloadUrl = $(tds[1]).find('.audio-player').attr('data-src') || ''
       }
 
       voiceList.push({
