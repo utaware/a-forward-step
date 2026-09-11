@@ -6,8 +6,8 @@ import { getRoleVoiceUrl } from './url'
 import { print } from '#utils'
 
 export interface IRoleVoiceItem {
+  language: string
   category: string
-  type: string
   description: string
   downloadUrl: string
 }
@@ -31,19 +31,32 @@ export async function parseRoleVoiceHtml(html: string) {
   const voiceList: IRoleVoiceItem[] = []
 
   tableEL.toArray().forEach(el => {
-    const category = el.attribs['title'].trim() || ''
+    const language = el.attribs['title'].trim() || ''
     const tableEl = $(el).find('table.wikitable')
+    let lastType = ''
+
     tableEl.find('tr').each((_, tr) => {
       const tds = $(tr).find('td')
-      if (tds.length < 4) return
+      if (tds.length < 3) return
 
-      const type = $(tds[0]).text().trim()
-      const description = $(tds[1]).text().trim()
-      const downloadUrl = $(tds[3]).find('a').attr('href') || ''
+      let category = ''
+      let description = ''
+      let downloadUrl = ''
+
+      if (tds.length >= 4) {
+        category = $(tds[0]).text().trim()
+        lastType = category
+        description = $(tds[1]).text().trim()
+        downloadUrl = $(tds[3]).find('a').attr('href') || ''
+      } else if (tds.length === 3) {
+        category = lastType
+        description = $(tds[0]).text().trim()
+        downloadUrl = $(tds[2]).find('a').attr('href') || ''
+      }
 
       voiceList.push({
+        language,
         category,
-        type,
         description,
         downloadUrl,
       })
