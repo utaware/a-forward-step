@@ -9,7 +9,7 @@ export enum ECharacterAssets {
 
 // 获取角色在维基百科上的页面 URL
 export function getWikiRoleUrl(name: string) {
-  return `${wikiBaseUrl}/${name}`
+  return `${wikiBaseUrl}/${encodeURIComponent(name)}`
 }
 
 // 获取角色资源的本地存储目录

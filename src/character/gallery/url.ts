@@ -4,7 +4,7 @@ import { ECharacterAssets, getWikiRoleUrl, getCharacterAssetsDir } from '../url'
 
 // 获取角色在维基百科上的画廊页面 URL
 export function getRoleGalleryUrl(name: string) {
-  return `${getWikiRoleUrl(name)}/${ECharacterAssets['gallery']}`
+  return `${getWikiRoleUrl(name)}/${encodeURIComponent(ECharacterAssets['gallery'])}`
 }
 
 // 获取角色画廊数据的本地存储目录

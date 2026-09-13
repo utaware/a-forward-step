@@ -4,7 +4,7 @@ import { ECharacterAssets, getWikiRoleUrl, getCharacterAssetsDir } from '../url'
 
 // 获取角色在维基百科上的语音页面 URL
 export function getRoleVoiceUrl(name: string) {
-  return `${getWikiRoleUrl(name)}/${ECharacterAssets['voice']}`
+  return `${getWikiRoleUrl(name)}/${encodeURIComponent(ECharacterAssets['voice'])}`
 }
 
 // 获取角色语音数据的本地存储目录
