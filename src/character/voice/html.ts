@@ -31,7 +31,7 @@ export async function parseRoleVoiceHtml(html: string) {
   const voiceList: IRoleVoiceItem[] = []
 
   tableEL.toArray().forEach(el => {
-    const language = el.attribs['title'].trim() || ''
+    const language = el.attribs['title'].trim() || '语音'
     const tableEl = $(el).find('table.wikitable')
     let lastType = ''
 
