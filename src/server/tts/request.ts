@@ -1,52 +1,26 @@
-export interface TtsOptions {
-  text: string
-  voice: string
-  lang: string
-  outputFormat: string
-  rate: string
-  pitch: string
-  volume: string
-  timeout: number
-}
+import { voicePattern, languagePattern } from './pattern'
+import { defaultTTSOptions } from './config'
 
-interface TtsRequest {
-  text?: unknown
-  voice?: unknown
-  lang?: unknown
-  outputFormat?: unknown
-  rate?: unknown
-  pitch?: unknown
-  volume?: unknown
-  timeout?: unknown
-}
+import type { TTSConfig } from './config'
 
-const percentPattern = /^(default|[+-]\d{1,3}%)$/
-const voicePattern = /^[a-z]{2,3}-[A-Z]{2}-[A-Za-z0-9]+Neural$/
-const languagePattern = /^[a-z]{2,3}-[A-Z]{2}$/
 const outputFormats = new Set(['audio-16khz-32kbitrate-mono-mp3', 'audio-24khz-48kbitrate-mono-mp3', 'audio-24khz-96kbitrate-mono-mp3'])
 
-function readString(value: unknown, fallback: string) {
-  return typeof value === 'string' && value.trim() ? value.trim() : fallback
+export function getTTSConfigKeys() {
+  return Object.keys(defaultTTSOptions)
 }
 
-function readPercent(value: unknown, fallback: string) {
-  const result = readString(value, fallback)
-  if (!percentPattern.test(result)) throw new Error(`无效的语音参数: ${result}`)
-  return result
+export function assignTTSConfig(body: object): TTSConfig {
+  const keys = getTTSConfigKeys() as (keyof TTSConfig)[]
+  const assignConfig = keys.reduce<Partial<TTSConfig>>((acc, key) => {
+    const value = Reflect.get(body, key)
+    acc[key] = value
+    return acc
+  }, {})
+  return { ...defaultTTSOptions, ...assignConfig }
 }
 
-export function parseTtsRequest(input: unknown): TtsOptions {
-  const body = (input ?? {}) as TtsRequest
-  const options: TtsOptions = {
-    text: readString(body.text, ''),
-    voice: readString(body.voice, 'zh-CN-XiaoxiaoNeural'),
-    lang: readString(body.lang, 'zh-CN'),
-    outputFormat: readString(body.outputFormat, 'audio-24khz-48kbitrate-mono-mp3'),
-    rate: readPercent(body.rate, 'default'),
-    pitch: readPercent(body.pitch, 'default'),
-    volume: readPercent(body.volume, 'default'),
-    timeout: Number(body.timeout ?? 15000),
-  }
+export function parseTtsRequest(body: object): TTSConfig {
+  const options: TTSConfig = assignTTSConfig(body)
 
   if (!options.text) throw new Error('请输入需要合成的文本')
   if (options.text.length > 3000) throw new Error('文本不能超过 3000 个字符')

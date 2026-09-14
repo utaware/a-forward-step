@@ -5,7 +5,6 @@ import { basename, join } from 'node:path'
 import Router from '@koa/router'
 
 import { audioDir, rootDir } from '#config'
-import { parseTtsRequest } from '../tts/request'
 import { generateSpeech } from '../tts'
 
 export function createRouter() {
@@ -17,8 +16,7 @@ export function createRouter() {
   })
 
   router.post('/api/tts', async ctx => {
-    const options = parseTtsRequest(ctx.request.body)
-    const filename = await generateSpeech(options)
+    const filename = await generateSpeech(ctx.request.body)
     ctx.body = { audioUrl: `/audio/${filename}` }
   })
 
