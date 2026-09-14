@@ -22,6 +22,7 @@
     "koa": "^3.2.1",
     "koa-bodyparser": "^4.4.1",
     "koa-static": "^5.0.0",
+    "lodash-es": "^4.18.1",
     "node-edge-tts": "^1.2.10"
   },
   "devDependencies": {
@@ -29,6 +30,7 @@
     "@types/koa__router": "^12.0.5",
     "@types/koa-bodyparser": "^4.3.13",
     "@types/koa-static": "^4.0.4",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^26.5.1",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
