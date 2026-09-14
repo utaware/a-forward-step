@@ -3,13 +3,26 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "tts": "tsx src/tts/server.ts"
   },
   "keywords": [],
   "author": "utaware",
   "license": "ISC",
   "description": "个人兴趣学习相关",
   "dependencies": {
+    "@koa/router": "^15.7.0",
+    "koa": "^3.2.1",
+    "koa-bodyparser": "^4.4.1",
+    "koa-static": "^5.0.0",
     "node-edge-tts": "^1.2.10"
+  },
+  "devDependencies": {
+    "@types/koa": "^3.0.3",
+    "@types/koa__router": "^12.0.5",
+    "@types/koa-bodyparser": "^4.3.13",
+    "@types/koa-static": "^4.0.4",
+    "@types/node": "^26.5.1",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
   }
 }
