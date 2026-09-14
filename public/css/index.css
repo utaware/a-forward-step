@@ -27,3 +27,8 @@ h1 {
   font-size: 20px;
   line-height: 1.65;
 }
+
+output {
+  width: 60px; /* Adjust the width as needed */
+  text-align: right;
+}

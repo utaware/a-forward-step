@@ -30,58 +30,28 @@
         <aside class="col-12 col-lg-4 d-grid gap-4">
           <section class="card shadow-sm">
             <div class="card-body p-4">
-              <div class="mb-3">
-                <label class="form-label small fw-bold" for="voice">音色</label>
-                <select class="form-select" id="voice" name="voice">
-                  <option value="zh-CN-XiaoxiaoNeural" data-lang="zh-CN">晓晓 · 中文女声</option>
-                  <option value="zh-CN-YunxiNeural" data-lang="zh-CN">云希 · 中文男声</option>
-                  <option value="zh-CN-YunjianNeural" data-lang="zh-CN">云健 · 中文男声</option>
-                  <option value="zh-TW-HsiaoChenNeural" data-lang="zh-TW">曉臻 · 繁体女声</option>
-                  <option value="en-US-AriaNeural" data-lang="en-US">Aria · English</option>
-                  <option value="en-US-GuyNeural" data-lang="en-US">Guy · English</option>
-                  <option value="ja-JP-NanamiNeural" data-lang="ja-JP">Nanami · 日本語</option>
-                </select>
-              </div>
+              <tts-select-field label="音色" input-id="voice" name="voice">
+                <option value="zh-CN-XiaoxiaoNeural" data-lang="zh-CN">晓晓 · 中文女声</option>
+                <option value="zh-CN-YunxiNeural" data-lang="zh-CN">云希 · 中文男声</option>
+                <option value="zh-CN-YunjianNeural" data-lang="zh-CN">云健 · 中文男声</option>
+                <option value="zh-TW-HsiaoChenNeural" data-lang="zh-TW">曉臻 · 繁体女声</option>
+                <option value="en-US-AriaNeural" data-lang="en-US">Aria · English</option>
+                <option value="en-US-GuyNeural" data-lang="en-US">Guy · English</option>
+                <option value="ja-JP-NanamiNeural" data-lang="ja-JP">Nanami · 日本語</option>
+              </tts-select-field>
 
               <input id="lang" name="lang" type="hidden" value="zh-CN" />
 
-              <div class="mb-3">
-                <label class="form-label small fw-bold" for="outputFormat">输出音质</label>
-                <select class="form-select" id="outputFormat" name="outputFormat">
-                  <option value="audio-16khz-32kbitrate-mono-mp3">16 kHz · 32 kbps</option>
-                  <option value="audio-24khz-48kbitrate-mono-mp3" selected>24 kHz · 48 kbps</option>
-                  <option value="audio-24khz-96kbitrate-mono-mp3">24 kHz · 96 kbps</option>
-                </select>
-              </div>
+              <tts-select-field label="输出音质" input-id="outputFormat" name="outputFormat">
+                <option value="audio-16khz-32kbitrate-mono-mp3">16 kHz · 32 kbps</option>
+                <option value="audio-24khz-48kbitrate-mono-mp3" selected>24 kHz · 48 kbps</option>
+                <option value="audio-24khz-96kbitrate-mono-mp3">24 kHz · 96 kbps</option>
+              </tts-select-field>
 
-              <div class="mb-3">
-                <label class="form-label small fw-bold" for="rate">语速</label>
-                <div class="d-flex align-items-center gap-3">
-                  <input class="form-range" id="rate" name="rate" type="range" min="-100" max="100" value="0" />
-                  <output for="rate">+0%</output>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label small fw-bold" for="pitch">音调</label>
-                <div class="d-flex align-items-center gap-3">
-                  <input class="form-range" id="pitch" name="pitch" type="range" min="-100" max="100" value="0" />
-                  <output for="pitch">+0%</output>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label small fw-bold" for="volume">音量</label>
-                <div class="d-flex align-items-center gap-3">
-                  <input class="form-range" id="volume" name="volume" type="range" min="-100" max="100" value="0" />
-                  <output for="volume">+0%</output>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label small fw-bold" for="timeout">超时时间（毫秒）</label>
-                <input id="timeoutRange" type="range" name="timeout" class="form-range" min="3000" max="60000" step="1000" value="15000" />
-              </div>
+              <tts-range-field label="语速" input-id="rate" name="rate" min="-100" max="100" value="0" percent></tts-range-field>
+              <tts-range-field label="音调" input-id="pitch" name="pitch" min="-100" max="100" value="0" percent></tts-range-field>
+              <tts-range-field label="音量" input-id="volume" name="volume" min="-100" max="100" value="0" percent></tts-range-field>
+              <tts-range-field label="超时时间" input-id="timeout" name="timeout" min="3" max="60" step="1" value="15"></tts-range-field>
 
               <button class="btn btn-primary w-100 py-2 fw-bold" id="submit" type="submit">生成语音</button>
             </div>
@@ -100,6 +70,7 @@
       </form>
     </main>
 
+    <script src="/js/components.js"></script>
     <script src="/js/index.js"></script>
   </body>
 </html>

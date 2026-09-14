@@ -4,7 +4,7 @@ const count = document.querySelector('#count')
 const voice = document.querySelector('#voice')
 const lang = document.querySelector('#lang')
 const submit = document.querySelector('#submit')
-const status = document.querySelector('#status')
+const statusEl = document.querySelector('#status')
 const player = document.querySelector('#player')
 const audio = document.querySelector('#audio')
 const download = document.querySelector('#download')
@@ -17,13 +17,6 @@ function formatPercent(value) {
   const number = Number(value)
   return `${number >= 0 ? '+' : ''}${number}%`
 }
-
-document.querySelectorAll('input[type="range"]').forEach(input => {
-  const output = input.parentElement.querySelector('output')
-  input.addEventListener('input', () => {
-    output.value = formatPercent(input.value)
-  })
-})
 
 voice.addEventListener('change', () => {
   lang.value = voice.selectedOptions[0].dataset.lang
@@ -42,7 +35,7 @@ form.addEventListener('submit', async event => {
   payload.rate = formatPercent(payload.rate)
   payload.pitch = formatPercent(payload.pitch)
   payload.volume = formatPercent(payload.volume)
-  payload.timeout = Number(payload.timeout)
+  payload.timeout = Number(payload.timeout) * 1000
 
   try {
     const response = await fetch('/api/tts', {
@@ -57,10 +50,10 @@ form.addEventListener('submit', async event => {
     audio.src = audioUrl
     download.href = result.audioUrl
     player.hidden = false
-    status.textContent = '生成完成'
+    statusEl.textContent = '生成完成'
     await audio.play().catch(() => undefined)
   } catch (error) {
-    status.textContent = error.message || '语音生成失败'
+    statusEl.textContent = error.message || '语音生成失败'
   } finally {
     submit.disabled = false
   }
