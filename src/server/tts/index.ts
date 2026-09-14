@@ -7,7 +7,7 @@ import { audioDir } from '#config'
 import { parseTtsRequest } from './request'
 import type { TTSConfig } from './config'
 
-export async function generateSpeech(body: object) {
+export async function generateSpeech(body: unknown) {
   const filename = `${randomUUID()}.mp3`
   const outputPath = join(audioDir, filename)
   const options = parseTtsRequest(body)
