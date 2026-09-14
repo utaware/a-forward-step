@@ -3,7 +3,7 @@ import { load } from 'cheerio'
 
 import { getRoleGalleryUrl } from './url'
 
-import { print } from '#utils'
+import { delay, print } from '#utils'
 
 export interface IRoleGalleryItem {
   category: string
@@ -151,7 +151,7 @@ function parseSkinSection($: ReturnType<typeof load>, container: ReturnType<Retu
 }
 
 /**
- * 通过 MediaWiki API 批量查询行为动画 GIF URL
+ * 通过 MediaWiki API 串行查询行为动画 GIF URL
  */
 async function fetchAnimationGifsBatch(
   queryList: { characterId: string; skinName: string; animCode: string; animName: string }[]
@@ -159,12 +159,16 @@ async function fetchAnimationGifsBatch(
   const items: IRoleGalleryItem[] = []
   if (!queryList.length) return items
 
-  const chunkSize = 50
-  for (let i = 0; i < queryList.length; i += chunkSize) {
-    const chunk = queryList.slice(i, i + chunkSize)
-    const titlesParam = chunk.map(item => `File:${encodeURIComponent(`${item.animCode}_${item.characterId}.gif`)}`).join('|')
-
-    const apiURL = `https://wiki.biligame.com/starengine/api.php` + `?action=query&titles=${titlesParam}&prop=imageinfo&iiprop=url&format=json`
+  for await (const [index, queryItem] of queryList.entries()) {
+    const filename = `${queryItem.animCode}_${queryItem.characterId}.gif`
+    const params = new URLSearchParams({
+      action: 'query',
+      titles: `File:${filename}`,
+      prop: 'imageinfo',
+      iiprop: 'url',
+      format: 'json',
+    })
+    const apiURL = `https://wiki.biligame.com/starengine/api.php?${params}`
 
     try {
       const { data } = await axios.get(apiURL)
@@ -173,26 +177,20 @@ async function fetchAnimationGifsBatch(
       for (const pageId in pages) {
         const page = pages[pageId]
         if (page.imageinfo && page.imageinfo[0]?.url) {
-          const rawTitle = page.title || ''
-          const titleFileName = rawTitle
-            .replace(/^(文件|File):/i, '')
-            .trim()
-            .replace(/\s+/g, '_')
-
-          const found = chunk.find(c => `${c.animCode}_${c.characterId}.gif`.toLowerCase() === titleFileName.toLowerCase())
-
-          if (found) {
-            items.push({
-              category: '行为动画',
-              subCategory: found.skinName,
-              title: found.animName,
-              downloadUrl: page.imageinfo[0].url,
-            })
-          }
+          items.push({
+            category: '行为动画',
+            subCategory: queryItem.skinName,
+            title: queryItem.animName,
+            downloadUrl: page.imageinfo[0].url,
+          })
         }
       }
     } catch (error) {
-      print(`Failed to fetch animation gifs batch: ${(error as Error).message}`, 'error')
+      print(`Failed to fetch animation gif ${filename}: ${(error as Error).message}`, 'error')
+    }
+
+    if (index < queryList.length - 1) {
+      await delay(1)
     }
   }
 
