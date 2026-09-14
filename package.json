@@ -19,6 +19,7 @@
   "description": "个人兴趣学习相关",
   "dependencies": {
     "@koa/router": "^15.7.0",
+    "joi": "^18.2.9",
     "koa": "^3.2.1",
     "koa-bodyparser": "^4.4.1",
     "koa-static": "^5.0.0",
