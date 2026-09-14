@@ -2,19 +2,12 @@ import { join, parse } from 'path'
 
 import { ensureDir } from 'fs-extra'
 
-import { impitDownloadFile, print } from '#utils'
+import { impitDownloadFile, print, sanitizeWindowsFilename } from '#utils'
 
 import { getRoleGalleryData } from './data'
 import { getCharacterGalleryDir } from './url'
 
 import type { IRoleGalleryItem } from './html'
-
-/**
- * 净化文件名中的非法字符
- */
-function sanitizeFilename(filename: string): string {
-  return filename.replace(/[\\/:*?"<>|]/g, '_')
-}
 
 // 下载单个画廊文件并保存到本地
 export async function dwonloadGalleryWithUrl(name: string, item: IRoleGalleryItem) {
@@ -24,10 +17,11 @@ export async function dwonloadGalleryWithUrl(name: string, item: IRoleGalleryIte
   try {
     const { ext } = parse(downloadUrl)
     const baseSaveDir = getCharacterGalleryDir(name)
-    const realPath = subCategory ? join(baseSaveDir, category, subCategory) : join(baseSaveDir, category)
+    const safeCategory = sanitizeWindowsFilename(category)
+    const realPath = subCategory ? join(baseSaveDir, safeCategory, sanitizeWindowsFilename(subCategory)) : join(baseSaveDir, safeCategory)
 
     const fileExt = ext || '.png'
-    const safeTitle = sanitizeFilename(title)
+    const safeTitle = sanitizeWindowsFilename(title)
     const filename = `${safeTitle}${fileExt}`
     const filePath = join(realPath, filename)
 

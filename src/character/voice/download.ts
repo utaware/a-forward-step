@@ -2,7 +2,7 @@ import { join, parse } from 'path'
 
 import { ensureDir } from 'fs-extra'
 
-import { impitDownloadFile, print } from '#utils'
+import { impitDownloadFile, print, sanitizeWindowsFilename } from '#utils'
 
 import { getRoleVoiceData } from './data'
 import { getCharacterVoiceDir } from './url'
@@ -17,8 +17,8 @@ export async function downloadVoiceWithUrl(name: string, item: IRoleVoiceItem) {
   try {
     const { ext } = parse(downloadUrl)
     const saveDir = getCharacterVoiceDir(name)
-    const realPath = `${saveDir}/${language}`
-    const filename = `${description}${ext}`
+    const realPath = join(saveDir, sanitizeWindowsFilename(language))
+    const filename = `${sanitizeWindowsFilename(description)}${ext}`
     const filePath = join(realPath, filename)
 
     await ensureDir(realPath)

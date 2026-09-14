@@ -23,6 +23,20 @@ function isRetryableStatus(status: number) {
   return RETRYABLE_STATUS_CODES.has(status) || status >= 500
 }
 
+export function sanitizeWindowsFilename(filename: string) {
+  const sanitized = filename
+    .replace(/[<>:"/\\|?*\u0000-\u001F]/g, '')
+    .replace(/\s+/g, '')
+    .replace(/[. ]+$/g, '')
+
+  if (!sanitized) return '_'
+  if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(sanitized)) {
+    return `_${sanitized}`
+  }
+
+  return sanitized
+}
+
 function isRetryableNetworkError(error: unknown) {
   const message = error instanceof Error ? error.message : String(error)
   return /UnexpectedEof|close_notify|ECONNRESET|ETIMEDOUT|timeout|connection reset|peer closed/i.test(message)
