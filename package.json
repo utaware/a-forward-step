@@ -5,6 +5,14 @@
   "scripts": {
     "tts": "tsx src/tts/server.ts"
   },
+  "imports": {
+    "#utils": {
+      "default": "./src/utils/index.ts"
+    },
+    "#config": {
+      "default": "./src/config/index.ts"
+    }
+  },
   "keywords": [],
   "author": "utaware",
   "license": "ISC",
