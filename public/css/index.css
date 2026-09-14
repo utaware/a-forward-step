@@ -1,0 +1,29 @@
+:root {
+  --ink: #17201f;
+  --paper: #f4f6f1;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(33, 109, 91, 0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(33, 109, 91, 0.055) 1px, transparent 1px), var(--paper);
+  background-size: 28px 28px;
+  font-family: 'Avenir Next', 'Segoe UI', sans-serif;
+}
+
+h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(32px, 6vw, 62px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+#text {
+  min-height: 330px;
+  resize: vertical;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  line-height: 1.65;
+}

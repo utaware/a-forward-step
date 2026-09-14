@@ -5,39 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Edge TTS 调试台</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <style>
-      :root {
-        --ink: #17201f;
-        --paper: #f4f6f1;
-      }
-
-      body {
-        min-height: 100vh;
-        color: var(--ink);
-        background:
-          linear-gradient(rgba(33, 109, 91, 0.055) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(33, 109, 91, 0.055) 1px, transparent 1px),
-          var(--paper);
-        background-size: 28px 28px;
-        font-family: "Avenir Next", "Segoe UI", sans-serif;
-      }
-
-      h1 {
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(32px, 6vw, 62px);
-        font-weight: 500;
-        line-height: 0.95;
-        letter-spacing: 0;
-      }
-
-      #text {
-        min-height: 330px;
-        resize: vertical;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 20px;
-        line-height: 1.65;
-      }
-    </style>
+    <link rel="stylesheet" href="public/css/index.css" />
   </head>
   <body>
     <main class="container py-4 py-md-5">
@@ -132,74 +100,6 @@
       </form>
     </main>
 
-    <script>
-      const form = document.querySelector('#tts-form')
-      const text = document.querySelector('#text')
-      const count = document.querySelector('#count')
-      const voice = document.querySelector('#voice')
-      const lang = document.querySelector('#lang')
-      const submit = document.querySelector('#submit')
-      const status = document.querySelector('#status')
-      const player = document.querySelector('#player')
-      const audio = document.querySelector('#audio')
-      const download = document.querySelector('#download')
-
-      function updateCount() {
-        count.textContent = `${text.value.length} / 3000`
-      }
-
-      function formatPercent(value) {
-        const number = Number(value)
-        return `${number >= 0 ? '+' : ''}${number}%`
-      }
-
-      document.querySelectorAll('input[type="range"]').forEach(input => {
-        const output = input.parentElement.querySelector('output')
-        input.addEventListener('input', () => {
-          output.value = formatPercent(input.value)
-        })
-      })
-
-      voice.addEventListener('change', () => {
-        lang.value = voice.selectedOptions[0].dataset.lang
-      })
-      text.addEventListener('input', updateCount)
-      updateCount()
-
-      form.addEventListener('submit', async event => {
-        event.preventDefault()
-        submit.disabled = true
-        player.hidden = true
-        status.textContent = '正在生成…'
-
-        const formData = new FormData(form)
-        const payload = Object.fromEntries(formData.entries())
-        payload.rate = formatPercent(payload.rate)
-        payload.pitch = formatPercent(payload.pitch)
-        payload.volume = formatPercent(payload.volume)
-        payload.timeout = Number(payload.timeout)
-
-        try {
-          const response = await fetch('/api/tts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          })
-          const result = await response.json()
-          if (!response.ok) throw new Error(result.error || '语音生成失败')
-
-          const audioUrl = `${result.audioUrl}?t=${Date.now()}`
-          audio.src = audioUrl
-          download.href = result.audioUrl
-          player.hidden = false
-          status.textContent = '生成完成'
-          await audio.play().catch(() => undefined)
-        } catch (error) {
-          status.textContent = error.message || '语音生成失败'
-        } finally {
-          submit.disabled = false
-        }
-      })
-    </script>
+    <script src="public/js/index.js"></script>
   </body>
 </html>
