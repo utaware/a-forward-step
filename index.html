@@ -4,24 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Edge TTS 调试台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
       :root {
-        color-scheme: light;
         --ink: #17201f;
-        --muted: #64706c;
         --paper: #f4f6f1;
-        --panel: #ffffff;
-        --line: #d8ded8;
-        --accent: #d94f35;
-        --accent-hover: #b93d28;
-        --green: #216d5b;
-        --shadow: 0 18px 50px rgba(23, 32, 31, 0.1);
       }
 
-      * { box-sizing: border-box; }
-
       body {
-        margin: 0;
         min-height: 100vh;
         color: var(--ink);
         background:
@@ -32,24 +22,7 @@
         font-family: "Avenir Next", "Segoe UI", sans-serif;
       }
 
-      .shell {
-        width: min(1120px, calc(100% - 32px));
-        margin: 0 auto;
-        padding: 42px 0 64px;
-      }
-
-      header {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 24px;
-        margin-bottom: 24px;
-        border-bottom: 2px solid var(--ink);
-        padding-bottom: 16px;
-      }
-
       h1 {
-        margin: 0;
         font-family: Georgia, "Times New Roman", serif;
         font-size: clamp(32px, 6vw, 62px);
         font-weight: 500;
@@ -57,208 +30,103 @@
         letter-spacing: 0;
       }
 
-      .status {
-        min-height: 24px;
-        margin: 0;
-        color: var(--muted);
-        text-align: right;
-        font-size: 14px;
-      }
-
-      .workspace {
-        display: grid;
-        grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.8fr);
-        gap: 20px;
-        align-items: start;
-      }
-
-      .editor,
-      .controls,
-      .player {
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 6px;
-        box-shadow: var(--shadow);
-      }
-
-      .editor { padding: 24px; }
-
-      .editor-top,
-      .player-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 12px;
-      }
-
-      label,
-      .section-title {
-        display: block;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0;
-        text-transform: uppercase;
-      }
-
-      .count { color: var(--muted); font-size: 12px; }
-
-      textarea,
-      select,
-      input[type="number"] {
-        width: 100%;
-        border: 1px solid var(--line);
-        border-radius: 4px;
-        background: #fbfcfa;
-        color: var(--ink);
-        font: inherit;
-        outline: none;
-      }
-
-      textarea {
+      #text {
         min-height: 330px;
         resize: vertical;
-        padding: 16px;
         font-family: Georgia, "Times New Roman", serif;
         font-size: 20px;
         line-height: 1.65;
       }
-
-      textarea:focus,
-      select:focus,
-      input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(33, 109, 91, 0.12); }
-
-      .side { display: grid; gap: 20px; }
-      .controls { padding: 20px; }
-      .field { margin-bottom: 18px; }
-      .field:last-child { margin-bottom: 0; }
-      .field label { margin-bottom: 7px; }
-      select, input[type="number"] { height: 42px; padding: 0 11px; }
-
-      .slider-row {
-        display: grid;
-        grid-template-columns: 1fr 58px;
-        gap: 12px;
-        align-items: center;
-      }
-
-      input[type="range"] { width: 100%; accent-color: var(--green); }
-      output { font-variant-numeric: tabular-nums; text-align: right; color: var(--green); }
-
-      button,
-      .download {
-        min-height: 46px;
-        border: 0;
-        border-radius: 4px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 9px;
-        padding: 0 18px;
-        font: inherit;
-        font-weight: 700;
-        text-decoration: none;
-        cursor: pointer;
-      }
-
-      button { width: 100%; color: white; background: var(--accent); }
-      button:hover { background: var(--accent-hover); }
-      button:disabled { opacity: 0.58; cursor: wait; }
-
-      .player { padding: 20px; }
-      .player[hidden] { display: none; }
-      audio { width: 100%; display: block; }
-      .download { min-height: 36px; color: var(--green); border: 1px solid var(--green); padding: 0 12px; font-size: 13px; }
-
-      @media (max-width: 760px) {
-        .shell { width: min(100% - 20px, 620px); padding-top: 24px; }
-        header { align-items: start; flex-direction: column; }
-        .status { text-align: left; }
-        .workspace { grid-template-columns: 1fr; }
-        textarea { min-height: 240px; }
-      }
     </style>
   </head>
   <body>
-    <main class="shell">
-      <header>
-        <h1>Edge TTS<br />调试台</h1>
-        <p id="status" class="status" role="status">就绪</p>
+    <main class="container py-4 py-md-5">
+      <header class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 border-bottom border-2 border-dark pb-3 mb-4">
+        <h1 class="mb-0">Edge TTS 调试台</h1>
+        <p id="status" class="small text-secondary text-md-end mb-0" role="status">就绪</p>
       </header>
 
-      <form id="tts-form" class="workspace">
-        <section class="editor">
-          <div class="editor-top">
-            <label for="text">合成文本</label>
-            <span id="count" class="count">0 / 3000</span>
+      <form id="tts-form" class="row g-4 align-items-start">
+        <section class="col-12 col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+                <label class="form-label small fw-bold text-uppercase mb-0" for="text">合成文本</label>
+                <span id="count" class="small text-secondary">0 / 3000</span>
+              </div>
+              <textarea class="form-control" id="text" name="text" maxlength="3000" required>你好，这是 Edge TTS 调试页面。</textarea>
+            </div>
           </div>
-          <textarea id="text" name="text" maxlength="3000" required>你好，这是 Edge TTS 调试页面。</textarea>
         </section>
 
-        <aside class="side">
-          <section class="controls">
-            <div class="field">
-              <label for="voice">音色</label>
-              <select id="voice" name="voice">
-                <option value="zh-CN-XiaoxiaoNeural" data-lang="zh-CN">晓晓 · 中文女声</option>
-                <option value="zh-CN-YunxiNeural" data-lang="zh-CN">云希 · 中文男声</option>
-                <option value="zh-CN-YunjianNeural" data-lang="zh-CN">云健 · 中文男声</option>
-                <option value="zh-TW-HsiaoChenNeural" data-lang="zh-TW">曉臻 · 繁体女声</option>
-                <option value="en-US-AriaNeural" data-lang="en-US">Aria · English</option>
-                <option value="en-US-GuyNeural" data-lang="en-US">Guy · English</option>
-                <option value="ja-JP-NanamiNeural" data-lang="ja-JP">Nanami · 日本語</option>
-              </select>
-            </div>
-
-            <input id="lang" name="lang" type="hidden" value="zh-CN" />
-
-            <div class="field">
-              <label for="outputFormat">输出音质</label>
-              <select id="outputFormat" name="outputFormat">
-                <option value="audio-16khz-32kbitrate-mono-mp3">16 kHz · 32 kbps</option>
-                <option value="audio-24khz-48kbitrate-mono-mp3" selected>24 kHz · 48 kbps</option>
-                <option value="audio-24khz-96kbitrate-mono-mp3">24 kHz · 96 kbps</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="rate">语速</label>
-              <div class="slider-row">
-                <input id="rate" name="rate" type="range" min="-100" max="100" value="0" />
-                <output for="rate">+0%</output>
+        <aside class="col-12 col-lg-4 d-grid gap-4">
+          <section class="card shadow-sm">
+            <div class="card-body p-4">
+              <div class="mb-3">
+                <label class="form-label small fw-bold" for="voice">音色</label>
+                <select class="form-select" id="voice" name="voice">
+                  <option value="zh-CN-XiaoxiaoNeural" data-lang="zh-CN">晓晓 · 中文女声</option>
+                  <option value="zh-CN-YunxiNeural" data-lang="zh-CN">云希 · 中文男声</option>
+                  <option value="zh-CN-YunjianNeural" data-lang="zh-CN">云健 · 中文男声</option>
+                  <option value="zh-TW-HsiaoChenNeural" data-lang="zh-TW">曉臻 · 繁体女声</option>
+                  <option value="en-US-AriaNeural" data-lang="en-US">Aria · English</option>
+                  <option value="en-US-GuyNeural" data-lang="en-US">Guy · English</option>
+                  <option value="ja-JP-NanamiNeural" data-lang="ja-JP">Nanami · 日本語</option>
+                </select>
               </div>
-            </div>
 
-            <div class="field">
-              <label for="pitch">音调</label>
-              <div class="slider-row">
-                <input id="pitch" name="pitch" type="range" min="-100" max="100" value="0" />
-                <output for="pitch">+0%</output>
+              <input id="lang" name="lang" type="hidden" value="zh-CN" />
+
+              <div class="mb-3">
+                <label class="form-label small fw-bold" for="outputFormat">输出音质</label>
+                <select class="form-select" id="outputFormat" name="outputFormat">
+                  <option value="audio-16khz-32kbitrate-mono-mp3">16 kHz · 32 kbps</option>
+                  <option value="audio-24khz-48kbitrate-mono-mp3" selected>24 kHz · 48 kbps</option>
+                  <option value="audio-24khz-96kbitrate-mono-mp3">24 kHz · 96 kbps</option>
+                </select>
               </div>
-            </div>
 
-            <div class="field">
-              <label for="volume">音量</label>
-              <div class="slider-row">
-                <input id="volume" name="volume" type="range" min="-100" max="100" value="0" />
-                <output for="volume">+0%</output>
+              <div class="mb-3">
+                <label class="form-label small fw-bold" for="rate">语速</label>
+                <div class="d-flex align-items-center gap-3">
+                  <input class="form-range" id="rate" name="rate" type="range" min="-100" max="100" value="0" />
+                  <output for="rate">+0%</output>
+                </div>
               </div>
-            </div>
 
-            <div class="field">
-              <label for="timeout">超时时间（毫秒）</label>
-              <input id="timeout" name="timeout" type="number" min="3000" max="60000" step="1000" value="15000" />
-            </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold" for="pitch">音调</label>
+                <div class="d-flex align-items-center gap-3">
+                  <input class="form-range" id="pitch" name="pitch" type="range" min="-100" max="100" value="0" />
+                  <output for="pitch">+0%</output>
+                </div>
+              </div>
 
-            <button id="submit" type="submit">生成语音</button>
+              <div class="mb-3">
+                <label class="form-label small fw-bold" for="volume">音量</label>
+                <div class="d-flex align-items-center gap-3">
+                  <input class="form-range" id="volume" name="volume" type="range" min="-100" max="100" value="0" />
+                  <output for="volume">+0%</output>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-bold" for="timeout">超时时间（毫秒）</label>
+                <input id="timeoutRange" type="range" name="timeout" class="form-range" min="3000" max="60000" step="1000" value="15000" />
+              </div>
+
+              <button class="btn btn-primary w-100 py-2 fw-bold" id="submit" type="submit">生成语音</button>
+            </div>
           </section>
 
-          <section id="player" class="player" hidden>
-            <div class="player-top">
-              <span class="section-title">生成结果</span>
-              <a id="download" class="download" download="edge-tts.mp3">下载</a>
+          <section id="player" class="card shadow-sm" hidden>
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+                <span class="small fw-bold text-uppercase">生成结果</span>
+                <a id="download" class="btn btn-sm btn-outline-success" download="edge-tts.mp3">下载</a>
+              </div>
+              <audio class="w-100 d-block" id="audio" controls preload="metadata"></audio>
             </div>
-            <audio id="audio" controls preload="metadata"></audio>
           </section>
         </aside>
       </form>
