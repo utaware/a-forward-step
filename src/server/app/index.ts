@@ -1,6 +1,8 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
+import serve from 'koa-static'
 
+import { publicDir } from '#config'
 import { createRouter } from './router'
 
 export function createApp() {
@@ -16,6 +18,7 @@ export function createApp() {
     }
   })
   app.use(bodyParser({ jsonLimit: '32kb' }))
+  app.use(serve(publicDir))
   app.use(router.routes())
   app.use(router.allowedMethods())
 
