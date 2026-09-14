@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "tts": "tsx src/tts/server.ts"
+    "tts": "tsx src/server/index.ts"
   },
   "imports": {
     "#utils": {
