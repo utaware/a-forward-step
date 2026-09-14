@@ -5,8 +5,8 @@ import { basename, join } from 'node:path'
 import Router from '@koa/router'
 
 import { audioDir, rootDir } from '#config'
-import { parseTtsRequest } from './request'
-import { generateSpeech } from './tts'
+import { parseTtsRequest } from '../tts/request'
+import { generateSpeech } from '../tts'
 
 export function createRouter() {
   const router = new Router()
