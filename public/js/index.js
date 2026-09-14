@@ -1,8 +1,6 @@
 const form = document.querySelector('#tts-form')
 const text = document.querySelector('#text')
 const count = document.querySelector('#count')
-const voice = document.querySelector('#voice')
-const lang = document.querySelector('#lang')
 const submit = document.querySelector('#submit')
 const statusEl = document.querySelector('#status')
 const player = document.querySelector('#player')
@@ -18,9 +16,6 @@ function formatPercent(value) {
   return `${number >= 0 ? '+' : ''}${number}%`
 }
 
-voice.addEventListener('change', () => {
-  lang.value = voice.selectedOptions[0].dataset.lang
-})
 text.addEventListener('input', updateCount)
 updateCount()
 
@@ -28,7 +23,7 @@ form.addEventListener('submit', async event => {
   event.preventDefault()
   submit.disabled = true
   player.hidden = true
-  status.textContent = '正在生成…'
+  statusEl.textContent = '正在生成…'
 
   const formData = new FormData(form)
   const payload = Object.fromEntries(formData.entries())
