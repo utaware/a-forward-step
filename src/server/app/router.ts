@@ -5,6 +5,7 @@ import { basename, join } from 'node:path'
 import Router from '@koa/router'
 
 import { audioDir, rootDir } from '#config'
+import { getNovelText } from '../novel'
 import { generateSpeech } from '../tts'
 
 export function createRouter() {
@@ -18,6 +19,10 @@ export function createRouter() {
   router.post('/api/tts', async ctx => {
     const filename = await generateSpeech(ctx.request.body)
     ctx.body = { audioUrl: `/audio/${filename}` }
+  })
+
+  router.post('/api/novel', async ctx => {
+    ctx.body = await getNovelText(ctx.request.body)
   })
 
   router.get('/audio/:filename', ctx => {

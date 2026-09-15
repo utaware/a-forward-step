@@ -8,9 +8,9 @@ import type { TTSConfig } from './config'
 const outputFormats = ['audio-16khz-32kbitrate-mono-mp3', 'audio-24khz-48kbitrate-mono-mp3', 'audio-24khz-96kbitrate-mono-mp3']
 
 const ttsRequestSchema = Joi.object<TTSConfig>({
-  text: Joi.string().trim().max(3000).default(defaultTTSOptions.text).messages({
+  text: Joi.string().trim().max(30000).default(defaultTTSOptions.text).messages({
     'string.empty': '请输入需要合成的文本',
-    'string.max': '文本不能超过 3000 个字符',
+    'string.max': '文本不能超过 30000 个字符',
   }),
   voice: Joi.string().trim().pattern(voicePattern).default(defaultTTSOptions.voice).messages({
     'string.pattern.base': '音色名称格式无效',
