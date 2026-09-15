@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "tts": "tsx src/server/index.ts"
+    "tts": "tsx src/server/index.ts",
+    "novel": "tsx src/novel/index.ts"
   },
   "imports": {
     "#utils": {
@@ -19,6 +20,10 @@
   "description": "个人兴趣学习相关",
   "dependencies": {
     "@koa/router": "^15.7.0",
+    "axios": "^1.20.0",
+    "cheerio": "^1.2.0",
+    "clipboardy": "^5.3.2",
+    "inquirer": "^14.2.2",
     "joi": "^18.2.9",
     "koa": "^3.2.1",
     "koa-bodyparser": "^4.4.1",
