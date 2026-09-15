@@ -1,6 +1,7 @@
 import { mkdir } from 'node:fs/promises'
 
 import { audioDir, port } from '#config'
+import { clearAssetsDir } from '#utils'
 import { createApp } from './app'
 
 async function start() {
@@ -9,6 +10,10 @@ async function start() {
   const app = createApp()
   app.listen(port, () => {
     console.log(`TTS debugger: http://localhost:${port}`)
+  })
+
+  app.once('close', async () => {
+    await clearAssetsDir()
   })
 }
 
