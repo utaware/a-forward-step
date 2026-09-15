@@ -9,16 +9,18 @@
   </head>
   <body>
     <main class="main">
+      <!-- 顶部区域 -->
       <header class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 border-bottom border-2 border-dark pb-3">
         <h1 class="mb-0">Edge TTS 调试台</h1>
         <p id="status" class="small text-secondary text-md-end mb-0" role="status">就绪</p>
       </header>
-
+      <!-- 表单区域 -->
       <form id="tts-form" class="tts-form">
-        <section class="form-content">
+        <!-- 左侧章节 -->
+        <section class="novel">
           <div class="card shadow-sm">
             <div class="card-body p-4">
-              <div class="card-body-content mb-3">
+              <div class="card-body-content">
                 <div class="chapter col-12 col-sm">
                   <label class="form-label small fw-bold text-uppercase" for="chapter">文章章节</label>
                   <div class="input-group">
@@ -28,18 +30,21 @@
                   </div>
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
-                <label class="form-label small fw-bold text-uppercase mb-0" for="text">合成文本</label>
-                <span id="count" class="small text-secondary">0 / 3000</span>
+              <!-- 文本内容 -->
+              <div class="novel-content">
+                <div class="content d-flex align-items-center justify-content-between gap-3 mb-2">
+                  <label class="form-label small fw-bold text-uppercase mb-0" for="text">合成文本</label>
+                  <span id="count" class="small text-secondary">0 / 3000</span>
+                </div>
+                <textarea class="form-control chapter-content" id="text" name="text" maxlength="30000" required>你好，这是 Edge TTS 调试页面。</textarea>
               </div>
-              <textarea class="form-control chapter-content" id="text" name="text" maxlength="30000" required>你好，这是 Edge TTS 调试页面。</textarea>
             </div>
           </div>
         </section>
 
-        <aside class="form-options">
-          <section class="card shadow-sm">
-            <div class="card-body p-4">
+        <aside class="options">
+          <section class="options-panel card shadow-sm">
+            <div class="options-panel-view card-body p-4">
               <tts-voice-field></tts-voice-field>
               <tts-output-format-field></tts-output-format-field>
 
@@ -48,7 +53,7 @@
               <tts-range-field label="音量" input-id="volume" name="volume" min="-100" max="100" value="0" percent></tts-range-field>
               <tts-range-field label="超时时间" input-id="timeout" name="timeout" min="3" max="60" step="1" value="30"></tts-range-field>
 
-              <button class="btn btn-primary w-100 py-2 fw-bold" id="submit" type="submit">生成语音</button>
+              <button class="tts-submit-btn btn btn-primary w-100 py-2 fw-bold" id="submit" type="submit">生成语音</button>
             </div>
           </section>
 

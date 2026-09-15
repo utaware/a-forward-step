@@ -16,7 +16,7 @@ body {
 .main {
   padding: var(--space);
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column;
   gap: var(--space);
 }
@@ -35,29 +35,49 @@ h1 {
   gap: var(--space);
 }
 
-.form-content {
+.novel {
   display: flex;
   flex: 2;
 }
 
-.form-content .card {
+.novel .card {
   display: flex;
   width: 100%;
 }
 
-.form-content .card .card-body {
+.novel-content {
   display: flex;
   flex: 1;
   flex-direction: column;
 }
 
-.form-options {
+.novel .card .card-body {
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  gap: var(--space);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space);
+}
+
+.options-panel {
+  flex: 1;
+}
+
+.options-panel-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .chapter-content {
   flex: 1;
-  resize: vertical;
+  resize: none;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 20px;
   line-height: 1.65;
