@@ -1,6 +1,7 @@
 :root {
   --ink: #17201f;
   --paper: #f4f6f1;
+  --space: 2rem;
 }
 
 body {
@@ -12,6 +13,14 @@ body {
   font-family: 'Avenir Next', 'Segoe UI', sans-serif;
 }
 
+.main {
+  padding: var(--space);
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  gap: var(--space);
+}
+
 h1 {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: clamp(32px, 6vw, 62px);
@@ -20,8 +29,34 @@ h1 {
   letter-spacing: 0;
 }
 
-#text {
-  min-height: 330px;
+.tts-form {
+  display: flex;
+  flex: 1;
+  gap: var(--space);
+}
+
+.form-content {
+  display: flex;
+  flex: 2;
+}
+
+.form-content .card {
+  display: flex;
+  width: 100%;
+}
+
+.form-content .card .card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.form-options {
+  flex: 1;
+}
+
+.chapter-content {
+  flex: 1;
   resize: vertical;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 20px;
@@ -35,4 +70,10 @@ output {
 
 label {
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .tts-form {
+    flex-direction: column;
+  }
 }

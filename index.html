@@ -8,26 +8,36 @@
     <link rel="stylesheet" href="/css/index.css" />
   </head>
   <body>
-    <main class="container py-4 py-md-5">
-      <header class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 border-bottom border-2 border-dark pb-3 mb-4">
+    <main class="main">
+      <header class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 border-bottom border-2 border-dark pb-3">
         <h1 class="mb-0">Edge TTS 调试台</h1>
         <p id="status" class="small text-secondary text-md-end mb-0" role="status">就绪</p>
       </header>
 
-      <form id="tts-form" class="row g-4 align-items-start">
-        <section class="col-12 col-lg-8">
+      <form id="tts-form" class="tts-form">
+        <section class="form-content">
           <div class="card shadow-sm">
             <div class="card-body p-4">
+              <div class="card-body-content mb-3">
+                <div class="chapter col-12 col-sm">
+                  <label class="form-label small fw-bold text-uppercase" for="chapter">文章章节</label>
+                  <div class="input-group">
+                    <button id="pre-chapter" class="btn btn-light btn-outline-secondary" type="button">上一章</button>
+                    <input class="form-control" id="chapter" type="tel" placeholder="输入章节号" />
+                    <button id="next-chapter" class="btn btn-light btn-outline-secondary" type="button">下一章</button>
+                  </div>
+                </div>
+              </div>
               <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
                 <label class="form-label small fw-bold text-uppercase mb-0" for="text">合成文本</label>
                 <span id="count" class="small text-secondary">0 / 3000</span>
               </div>
-              <textarea class="form-control" id="text" name="text" maxlength="3000" required>你好，这是 Edge TTS 调试页面。</textarea>
+              <textarea class="form-control chapter-content" id="text" name="text" maxlength="30000" required>你好，这是 Edge TTS 调试页面。</textarea>
             </div>
           </div>
         </section>
 
-        <aside class="col-12 col-lg-4 d-grid gap-4">
+        <aside class="form-options">
           <section class="card shadow-sm">
             <div class="card-body p-4">
               <tts-voice-field></tts-voice-field>
@@ -36,7 +46,7 @@
               <tts-range-field label="语速" input-id="rate" name="rate" min="-100" max="100" value="0" percent></tts-range-field>
               <tts-range-field label="音调" input-id="pitch" name="pitch" min="-100" max="100" value="0" percent></tts-range-field>
               <tts-range-field label="音量" input-id="volume" name="volume" min="-100" max="100" value="0" percent></tts-range-field>
-              <tts-range-field label="超时时间" input-id="timeout" name="timeout" min="3" max="60" step="1" value="15"></tts-range-field>
+              <tts-range-field label="超时时间" input-id="timeout" name="timeout" min="3" max="60" step="1" value="30"></tts-range-field>
 
               <button class="btn btn-primary w-100 py-2 fw-bold" id="submit" type="submit">生成语音</button>
             </div>
