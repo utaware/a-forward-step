@@ -14,7 +14,13 @@ export interface IRoleVoiceItem {
 
 // 获取角色在维基百科上的语音页面 HTML
 export async function getRoleVoiceHtml(name: string) {
-  const { status, data, statusText } = await axios.get(getRoleVoiceUrl(name))
+  const { status, data, statusText } = await axios.get(getRoleVoiceUrl(name), {
+    headers: {
+      'User-Agent': 'Mozilla/5.0',
+      Referer: 'https://wiki.biligame.com/',
+      Accept: 'text/html,application/xhtml+xml',
+    }
+  })
   const isSuccess = status === 200
   if (!isSuccess) {
     print(`Failed to fetch role voice HTML for ${name}: ${status} ${statusText}`, 'error')

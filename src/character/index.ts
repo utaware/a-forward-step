@@ -14,6 +14,7 @@ async function main(): Promise<void> {
   for await (const role of roleData) {
     const { name } = role
     await downloadRoleVoiceData(name)
+    await delay(60)
     await downloadRoleGalleryData(name)
     await delay(60)
   }

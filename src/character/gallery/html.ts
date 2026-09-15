@@ -46,7 +46,14 @@ function getOriginalImageUrl(thumbUrl: string): string {
  * 获取角色在维基百科上的画廊页面 HTML
  */
 export async function getRoleGalleryHtml(name: string) {
-  const { status, data, statusText } = await axios.get(getRoleGalleryUrl(name))
+  await delay(6)
+  const { status, data, statusText } = await axios.get(getRoleGalleryUrl(name), {
+    headers: {
+      'User-Agent': 'Mozilla/5.0',
+      Referer: 'https://wiki.biligame.com/',
+      Accept: 'text/html,application/xhtml+xml',
+    }
+  })
   const isSuccess = status === 200
   if (!isSuccess) {
     print(`Failed to fetch role gallery HTML for ${name}: ${status} ${statusText}`, 'error')
@@ -171,7 +178,13 @@ async function fetchAnimationGifsBatch(
     const apiURL = `https://wiki.biligame.com/starengine/api.php?${params}`
 
     try {
-      const { data } = await axios.get(apiURL)
+      const { data } = await axios.get(apiURL, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0',
+          Referer: 'https://wiki.biligame.com/',
+          Accept: 'text/html,application/xhtml+xml',
+        }
+      })
       const pages = data?.query?.pages || {}
 
       for (const pageId in pages) {
@@ -189,9 +202,7 @@ async function fetchAnimationGifsBatch(
       print(`Failed to fetch animation gif ${filename}: ${(error as Error).message}`, 'error')
     }
 
-    if (index < queryList.length - 1) {
-      await delay(1)
-    }
+    await delay(6)
   }
 
   return items
