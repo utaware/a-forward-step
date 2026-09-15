@@ -7,6 +7,7 @@ import { clearAssetsDir } from '#utils'
 import { createApp } from './app'
 
 async function start() {
+  await clearAssetsDir()
   await mkdir(audioDir, { recursive: true })
 
   const app = createApp()
@@ -14,9 +15,6 @@ async function start() {
   app.listen(activePort, () => {
     console.log(`Server is listening on port ${activePort}`)
   })
-
-  process.once('SIGINT', () => clearAssetsDir())
-  process.once('SIGTERM', () => clearAssetsDir())
 }
 
 start().catch(error => {
